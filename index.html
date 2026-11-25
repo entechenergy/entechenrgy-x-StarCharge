@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StarCharge Catalog · EV Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Michroma&family=Prompt:wght@300;400;500;600&display=swap">
+<style>
+/* VOICE: confident showroom catalog for station owners, made by a dealer they can trust.
+   IDEA: a product brochure that unfolds into a real job-site logbook: every model links to EV Cafe stations already running.
+   PICTURE: big product cut-outs on an Entech blue→green field; a live 3D station per scenario; a Thailand map of real sites.
+   COLOUR and TYPE: Entech blue #0089D1 + green #75C188, StarCharge orange #F26A1B as the one accent, deep navy ink; Prompt for Thai, Bai Jamjuree for numbers.
+   LAYOUT: sticky top bar, hero, model rail, model page (product | scenario + 3D | reference sites), network map page, contact band on every view. */
+:root{color-scheme:light dark;
+ --bg:#06111c;--card:#0b1927;--card2:#122436;--line:#1c3246;
+ --ink:#eef4f8;--mut:#8fa5b7;
+ --blue:#0089d1;--green:#75c188;--sc:#f26a1b;--navy:#071a2e;
+ --grad:linear-gradient(115deg,#0573c9 0%,#0a8fd0 38%,#2fae9a 72%,#75c188 100%);
+ --r:18px;--sh:0 18px 40px -24px rgba(7,26,46,.45)}
+:root,:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Prompt",Tahoma,sans-serif;overflow-x:clip;font-weight:400}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.num,h1,h2,h3{font-family:"Bai Jamjuree","Prompt",sans-serif}
+h1,h2,h3{margin:0;line-height:1.1;text-wrap:balance}
+h2{font-size:clamp(26px,3.6vw,38px);font-weight:700}
+h3{font-size:20px;font-weight:600}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(16px,4vw)}
+.mut{color:var(--mut)}.sm{font-size:14px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
+.brand img{height:34px;width:auto}
+.brand .xx{color:var(--mut);font-size:14px}
+.brand .ent{height:26px}
+nav.tabs{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{flex:none;text-decoration:none;padding:9px 14px;border-radius:99px;font-size:15px;color:var(--mut);min-height:44px;display:flex;align-items:center}
+nav.tabs a[aria-current=page]{background:var(--ink);color:var(--bg)}
+@media(max-width:640px){.brand .ent,.brand .xx{display:none}nav.tabs a{padding:8px 11px;font-size:14px}}
+
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:12px;border:0;text-decoration:none;font-weight:500;font-size:16px}
+.btn.w{background:#fff;color:var(--navy)}.btn.o{background:var(--sc);color:#fff}.btn.k{background:#fff;color:#06111c}.btn.l{background:var(--card2);color:var(--ink)}
+/* hero: dark showroom slider, gradient panel on the right (Panerai-style split) */
+.hero{position:relative;overflow:hidden;background:#040b14;color:#fff;min-height:min(88vh,820px);display:flex;flex-direction:column}
+.hero .panel-r{position:absolute;top:0;bottom:0;right:0;width:36%;background:var(--grad);transition:background .6s}
+.hero[data-i="1"] .panel-r{background:linear-gradient(200deg,#75c188 0%,#2fae9a 40%,#0a8fd0 100%)}
+.hero .panel-r::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 1px,transparent 1px 18px)}
+.hero .glow{position:absolute;left:-10%;top:10%;width:70%;height:90%;background:radial-gradient(closest-side,rgba(0,137,209,.22),transparent);pointer-events:none}
+.slides{position:relative;flex:1;display:grid}
+.slide{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);align-items:center;gap:20px;max-width:1340px;margin:0 auto;width:100%;padding:48px max(16px,4vw) 20px;opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s}
+.slide.on{opacity:1;visibility:visible}
+.slide .copy{position:relative;z-index:2}
+.eyebrow{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:#9fc9e6;font-family:"Bai Jamjuree";font-weight:600}
+.slide h1{font-family:"Michroma","Bai Jamjuree",sans-serif;font-weight:400;font-size:clamp(34px,5vw,68px);line-height:1.02;letter-spacing:.01em;margin:18px 0 0;text-transform:uppercase}
+.slide .rule{display:flex;align-items:center;gap:14px;margin:22px 0;color:#c6d6e3;font-size:16px}
+.slide .rule::before{content:"";width:56px;height:1px;background:#fff}
+.slide .kw{font:600 clamp(22px,2.4vw,30px)/1.1 "Bai Jamjuree";color:#fff}
+.slide .kw small{display:block;font:300 15px/1.6 "Prompt";color:#a9bccb;margin-top:8px;max-width:30em}
+.slide .copy .cta{margin-top:28px}
+.btn.line{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:10px 20px}
+.btn.line .arr{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.5);margin-left:4px}
+.btn.solid{background:#fff;color:#06111c;border-radius:99px;padding:10px 22px}
+.slide .art{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.slide .art img{width:106%;max-width:none;margin-right:-3%;filter:drop-shadow(0 40px 40px rgba(0,0,0,.55)) drop-shadow(0 6px 10px rgba(0,0,0,.35));transform:translateX(30px);transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.slide.on .art img{transform:none}
+.slide .art .floor{position:absolute;left:5%;right:-5%;bottom:-4%;height:18%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);z-index:-1}
+.hero-foot{position:relative;z-index:3;max-width:1340px;margin:0 auto;width:100%;padding:0 max(16px,4vw) 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:20px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,auto));gap:clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,.16);padding-top:18px}
+.stats b{display:block;font:600 clamp(28px,3.4vw,44px)/1 "Bai Jamjuree";letter-spacing:-.01em}
+.stats b em{font-style:normal;color:var(--green)}
+.stats small{font-size:14px;color:#a9bccb}
+.sctl{display:flex;align-items:center;gap:14px}
+.dots{display:flex;gap:8px}
+.dots button{width:10px;height:10px;border-radius:50%;border:1px solid #fff;background:transparent;padding:0}
+.dots button[aria-current=true]{background:#fff}
+.sctl .nav{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(4,11,20,.35);color:#fff;font-size:18px}
+.slabel{font:600 12px "Bai Jamjuree";letter-spacing:.2em;color:#cfe3f1}
+@media(max-width:820px){.hero{min-height:0}.hero .panel-r{width:100%;top:0;bottom:auto;height:250px}.slide .art{min-height:210px}.slide{grid-template-columns:1fr;padding-top:28px}.slide .art{order:-1}.slide .art img{width:112%;margin:0 -6%}.hero-foot{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}}
+
+/* trust band */
+.trust{background:#081624;color:#e8f2f8;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding-top:30px;padding-bottom:30px}
+.trust img{width:120px}
+.trust h3{font-size:22px;margin-bottom:6px}
+.trust ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.trust li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:6px 14px;font-size:14px}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:15px}
+.flow i{font-style:normal;color:var(--green)}
+@media(max-width:600px){.trust .wrap{grid-template-columns:1fr}.trust img{width:96px}}
+
+.band{padding:clamp(32px,5vw,64px) 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-h p{margin:6px 0 0}
+
+/* model grid */
+.fams{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;min-height:44px;font-size:15px}
+.chip[aria-pressed=true]{background:#fff;color:#06111c;border-color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);text-decoration:none;display:flex;flex-direction:column;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.mcard:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.mcard .pic{height:200px;background:radial-gradient(70% 60% at 50% 100%,rgba(0,137,209,.28),transparent 70%),linear-gradient(#0e2032,#0b1927);display:flex;align-items:flex-end;justify-content:center;padding-top:14px;position:relative}
+.mcard .pic img{max-height:172px;max-width:82%;object-fit:contain}
+.mcard .tag{position:absolute;top:12px;left:12px;font:600 11px "Bai Jamjuree";letter-spacing:.14em;text-transform:uppercase;color:#9fc9e6}
+.mcard .refs{position:absolute;top:10px;right:10px;font-size:12px;background:rgba(117,193,136,.16);color:#9fe0b1;border:1px solid rgba(117,193,136,.4);border-radius:99px;padding:2px 10px}
+.mcard .bd{padding:12px 16px 16px;border-top:1px solid var(--line)}
+.mcard .kw{font:600 28px/1 "Bai Jamjuree";color:#fff}
+.mcard .kw small{font-size:14px;color:var(--mut);font-weight:500;margin-left:4px}
+.mcard .pic img{filter:drop-shadow(0 18px 16px rgba(0,0,0,.5))}
+.mcard h3{margin:4px 0 2px;font-size:18px}
+
+/* model page */
+.mhead{background:linear-gradient(90deg,#040b14 0 58%,transparent 58%),var(--grad);color:#fff;position:relative}
+@media(max-width:820px){.mhead{background:#040b14}}
+.mhead .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:end;padding-top:28px}
+.back{color:#fff;opacity:.9;text-decoration:none;font-size:15px;display:inline-flex;min-height:44px;align-items:center}
+.mhead h1{font-family:"Michroma","Bai Jamjuree",sans-serif;font-weight:400;font-size:clamp(28px,4vw,48px);text-transform:uppercase;line-height:1.08}
+.mhead .sub{font-size:17px;opacity:.95;margin:8px 0 16px}
+.keyspec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:24px}
+.keyspec div{border-top:1px solid rgba(255,255,255,.25);padding:10px 2px 0}
+.keyspec b{display:block;font:700 22px/1.1 "Bai Jamjuree"}
+.keyspec small{font-size:13px;opacity:.9}
+.gal{display:flex;gap:6px;align-items:flex-end;justify-content:center;height:clamp(260px,34vw,380px)}
+.gal img{max-height:100%;max-width:50%;object-fit:contain;filter:drop-shadow(0 24px 20px rgba(4,20,36,.4))}
+.gal img+img{max-height:86%}
+@media(max-width:820px){.mhead .wrap{grid-template-columns:1fr}.gal{order:-1;height:240px}}
+
+.scn{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+@media(max-width:960px){.scn{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.bays{display:flex;gap:8px;flex-wrap:wrap;padding:14px}
+.bays button{border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:8px 14px;min-height:52px;min-width:84px;text-align:left;line-height:1.2}
+.bays button b{display:block;font:700 20px/1 "Bai Jamjuree"}
+.bays button small{font-size:12px;color:var(--mut)}
+.bays button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bays button[aria-pressed=true] small{color:inherit;opacity:.8}
+.bays button .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-left:6px;vertical-align:middle}
+.gl{position:relative;height:clamp(320px,44vw,480px);background:radial-gradient(120% 90% at 50% 0%,#17324a,#06111c 70%);border-top:1px solid var(--line)}
+:root[data-theme=dark] .gl{background:linear-gradient(#0e2234,#0a1622)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .gl{background:linear-gradient(#0e2234,#0a1622)}}
+.gl canvas{position:absolute;inset:0}
+.gl .hint{position:absolute;right:12px;top:12px;font-size:12px;background:rgba(7,26,46,.7);color:#fff;border-radius:99px;padding:4px 10px;z-index:2;pointer-events:none}
+.gl .nogl{position:absolute;inset:0;display:grid;place-items:center;color:var(--mut);padding:20px;text-align:center}
+.calc{padding:16px}
+.calc .big{font:600 clamp(34px,4vw,46px)/1 "Bai Jamjuree";color:#fff}
+.calc .big small{font-size:16px;color:var(--mut);margin-left:6px}
+.rows{margin:12px 0 0;padding:0;list-style:none}
+.rows li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px dashed var(--line);font-size:15px}
+.rows li b{font-family:"Bai Jamjuree";font-weight:600;text-align:right;white-space:nowrap}
+.tr{margin-top:12px;background:color-mix(in srgb,var(--blue) 10%,var(--card));border:1px solid color-mix(in srgb,var(--blue) 30%,transparent);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.tr .k{flex:none;font:600 26px/1 "Bai Jamjuree";color:#7fd0ff;white-space:nowrap}
+.tr p{margin:0;font-size:13px;color:var(--mut)}
+.note{font-size:13px;color:var(--mut);margin:10px 0 0}
+
+.refs-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 12px}
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.scard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;text-align:left;padding:0;width:100%}
+.scard .ph{aspect-ratio:4/3;background:var(--card2) center/cover no-repeat;position:relative}
+.scard .ph.empty{display:grid;place-items:center;color:var(--mut);font-size:14px;background:repeating-linear-gradient(135deg,var(--card2) 0 10px,var(--card) 10px 20px)}
+.top{background:rgba(4,11,20,.82)!important}
+.scard .st{position:absolute;left:10px;top:10px;font-size:12px;border-radius:99px;padding:3px 10px;background:var(--green);color:#06210f;font-weight:500}
+.scard .st.w{background:#f3b23a;color:#2a1a00}
+.scard .bd{padding:12px 14px 14px}
+.scard h4{margin:0 0 2px;font:600 17px/1.3 "Prompt"}
+.scard .meta{font-size:14px;color:var(--mut)}
+.scard .kv{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.kv span{font-size:12px;background:var(--card2);border-radius:8px;padding:3px 8px}
+.empty-refs{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:18px;color:var(--mut)}
+
+table.spec{width:100%;border-collapse:collapse;font-size:15px}
+.spec th,.spec td{padding:10px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.spec th{width:38%;color:var(--mut);font-weight:400}
+.spec tr:first-child th,.spec tr:first-child td{border-top:0}
+
+/* map page */
+.mapwrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+@media(max-width:960px){.mapwrap{grid-template-columns:1fr}}
+.mapbox{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.mapbox svg{display:block;width:100%;height:clamp(460px,72vh,780px);touch-action:manipulation}
+.prov{fill:#13283b;stroke:#06111c;stroke-width:14}
+.outl{fill:none;stroke:#3a5f7c;stroke-width:18}
+.pin{cursor:pointer}
+.pin circle.c{stroke:#fff;stroke-width:22;transition:r .2s}
+.pin.on circle.c{stroke:var(--ink);stroke-width:34}
+.pin text{font:700 120px "Bai Jamjuree";fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.regions{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2;right:10px}
+.regions button{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:14px;min-height:38px;box-shadow:var(--sh)}
+.regions button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.legend{position:absolute;left:10px;bottom:10px;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;display:grid;gap:4px}
+@media(max-width:600px){.legend{position:static;grid-template-columns:1fr 1fr;border-radius:0;border:0;border-top:1px solid var(--line)}.mapbox svg{height:62vh}}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2px solid #fff}
+.side{display:grid;gap:12px}
+.filters{display:grid;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.filters input,.filters select{width:100%;font:16px "Prompt";padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.slist2{display:grid;gap:8px;max-height:560px;overflow:auto;padding-right:4px}
+.srow{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;text-align:left;width:100%}
+.srow .t{width:64px;height:48px;border-radius:9px;background:var(--card2) center/cover}
+.srow b{display:block;font-weight:500;font-size:15px;line-height:1.3}
+.srow small{color:var(--mut);font-size:13px}
+.srow .q{font:700 15px "Bai Jamjuree";color:var(--blue);white-space:nowrap}
+.srow[aria-current=true]{border-color:var(--blue);box-shadow:0 0 0 2px color-mix(in srgb,var(--blue) 40%,transparent)}
+
+/* station sheet */
+.scrim{position:fixed;inset:0;background:rgba(4,14,24,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:61;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);transform:translateX(102%);transition:transform .28s ease;overflow-y:auto;box-shadow:-20px 0 40px -20px rgba(0,0,0,.4)}
+.sheet.on{transform:none}
+.sheet .hd{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 12px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sheet .hd b{flex:1;font-weight:500}
+.x{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:20px}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:0;background:#000}
+.car img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;min-width:0}
+.carnav{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;font-size:13px;color:var(--mut)}
+.carnav button{border:1px solid var(--line);background:var(--card);border-radius:10px;min-width:44px;min-height:40px}
+.sheet .in{padding:6px 18px 24px}
+.sheet h2{font-size:26px}
+.sheet .gl{height:300px;border-radius:14px;border:1px solid var(--line);overflow:hidden;margin-top:14px}
+
+/* contact */
+.contact{background:radial-gradient(80% 120% at 100% 0%,rgba(0,137,209,.25),transparent 60%),#040b14;color:#e6f0f7;border-top:1px solid var(--line)}
+.contact .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;padding-top:40px;padding-bottom:40px;align-items:center}
+.ccard{background:#fff;color:#0b1f33;border-radius:22px;padding:22px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px;align-items:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.ccard img{width:96px}
+.ccard h3{font-size:22px}
+.ccard .role{color:#4f6475;font-size:14px;margin-bottom:8px}
+.ccard .ln{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ccard .ln a{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:8px 12px;border-radius:10px;background:#eef4f8;text-decoration:none;font-size:15px}
+.ccard .ln a.p{background:var(--sc);color:#fff}
+.ccard .ln a.l{background:#06c755;color:#fff}
+.addr{font-size:13px;color:#56697a;margin-top:10px}
+.contact h2{color:#fff}
+.contact .tb{display:flex;align-items:center;gap:14px;margin-top:16px}
+.contact .tb img{width:84px}
+@media(max-width:820px){.contact .wrap{grid-template-columns:1fr}.ccard{grid-template-columns:1fr}}
+footer{background:#04111f;color:#8ea4b6;font-size:13px;padding:16px 0}
+footer .wrap{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+footer img{height:22px;opacity:.9}
+.fade{animation:fd .35s ease}@keyframes fd{from{opacity:0;transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){.fade{animation:none}.slide,.slide .art img,.bigword{transition-duration:.01s}}
+
+/* trust band */
+.trust{background:#081624;color:#e8f2f8;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding-top:30px;padding-bottom:30px}
+.trust img{width:120px}
+.trust h3{font-size:22px;margin-bottom:6px}
+.trust ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.trust li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:6px 14px;font-size:14px}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:15px}
+.flow i{font-style:normal;color:var(--green)}
+@media(max-width:600px){.trust .wrap{grid-template-columns:1fr}.trust img{width:96px}}
+
+.band{padding:clamp(32px,5vw,64px) 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-h p{margin:6px 0 0}
+
+/* model grid */
+.fams{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;min-height:44px;font-size:15px}
+.chip[aria-pressed=true]{background:#fff;color:#06111c;border-color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);text-decoration:none;display:flex;flex-direction:column;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.mcard:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.mcard .pic{height:200px;background:radial-gradient(70% 60% at 50% 100%,rgba(0,137,209,.28),transparent 70%),linear-gradient(#0e2032,#0b1927);display:flex;align-items:flex-end;justify-content:center;padding-top:14px;position:relative}
+.mcard .pic img{max-height:172px;max-width:82%;object-fit:contain}
+.mcard .tag{position:absolute;top:12px;left:12px;font:600 11px "Bai Jamjuree";letter-spacing:.14em;text-transform:uppercase;color:#9fc9e6}
+.mcard .refs{position:absolute;top:10px;right:10px;font-size:12px;background:rgba(117,193,136,.16);color:#9fe0b1;border:1px solid rgba(117,193,136,.4);border-radius:99px;padding:2px 10px}
+.mcard .bd{padding:12px 16px 16px;border-top:1px solid var(--line)}
+.mcard .kw{font:600 28px/1 "Bai Jamjuree";color:#fff}
+.mcard .kw small{font-size:14px;color:var(--mut);font-weight:500;margin-left:4px}
+.mcard .pic img{filter:drop-shadow(0 18px 16px rgba(0,0,0,.5))}
+.mcard h3{margin:4px 0 2px;font-size:18px}
+
+/* model page */
+.mhead{background:linear-gradient(90deg,#040b14 0 58%,transparent 58%),var(--grad);color:#fff;position:relative}
+@media(max-width:820px){.mhead{background:#040b14}}
+.mhead .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:end;padding-top:28px}
+.back{color:#fff;opacity:.9;text-decoration:none;font-size:15px;display:inline-flex;min-height:44px;align-items:center}
+.mhead h1{font-family:"Michroma","Bai Jamjuree",sans-serif;font-weight:400;font-size:clamp(28px,4vw,48px);text-transform:uppercase;line-height:1.08}
+.mhead .sub{font-size:17px;opacity:.95;margin:8px 0 16px}
+.keyspec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:24px}
+.keyspec div{border-top:1px solid rgba(255,255,255,.25);padding:10px 2px 0}
+.keyspec b{display:block;font:700 22px/1.1 "Bai Jamjuree"}
+.keyspec small{font-size:13px;opacity:.9}
+.gal{display:flex;gap:6px;align-items:flex-end;justify-content:center;height:clamp(260px,34vw,380px)}
+.gal img{max-height:100%;max-width:50%;object-fit:contain;filter:drop-shadow(0 24px 20px rgba(4,20,36,.4))}
+.gal img+img{max-height:86%}
+@media(max-width:820px){.mhead .wrap{grid-template-columns:1fr}.gal{order:-1;height:240px}}
+
+.scn{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+@media(max-width:960px){.scn{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.bays{display:flex;gap:8px;flex-wrap:wrap;padding:14px}
+.bays button{border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:8px 14px;min-height:52px;min-width:84px;text-align:left;line-height:1.2}
+.bays button b{display:block;font:700 20px/1 "Bai Jamjuree"}
+.bays button small{font-size:12px;color:var(--mut)}
+.bays button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bays button[aria-pressed=true] small{color:inherit;opacity:.8}
+.bays button .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-left:6px;vertical-align:middle}
+.gl{position:relative;height:clamp(320px,44vw,480px);background:radial-gradient(120% 90% at 50% 0%,#17324a,#06111c 70%);border-top:1px solid var(--line)}
+:root[data-theme=dark] .gl{background:linear-gradient(#0e2234,#0a1622)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .gl{background:linear-gradient(#0e2234,#0a1622)}}
+.gl canvas{position:absolute;inset:0}
+.gl .hint{position:absolute;right:12px;top:12px;font-size:12px;background:rgba(7,26,46,.7);color:#fff;border-radius:99px;padding:4px 10px;z-index:2;pointer-events:none}
+.gl .nogl{position:absolute;inset:0;display:grid;place-items:center;color:var(--mut);padding:20px;text-align:center}
+.calc{padding:16px}
+.calc .big{font:600 clamp(34px,4vw,46px)/1 "Bai Jamjuree";color:#fff}
+.calc .big small{font-size:16px;color:var(--mut);margin-left:6px}
+.rows{margin:12px 0 0;padding:0;list-style:none}
+.rows li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px dashed var(--line);font-size:15px}
+.rows li b{font-family:"Bai Jamjuree";font-weight:600;text-align:right;white-space:nowrap}
+.tr{margin-top:12px;background:color-mix(in srgb,var(--blue) 10%,var(--card));border:1px solid color-mix(in srgb,var(--blue) 30%,transparent);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.tr .k{flex:none;font:600 26px/1 "Bai Jamjuree";color:#7fd0ff;white-space:nowrap}
+.tr p{margin:0;font-size:13px;color:var(--mut)}
+.note{font-size:13px;color:var(--mut);margin:10px 0 0}
+
+.refs-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 12px}
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.scard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;text-align:left;padding:0;width:100%}
+.scard .ph{aspect-ratio:4/3;background:var(--card2) center/cover no-repeat;position:relative}
+.scard .ph.empty{display:grid;place-items:center;color:var(--mut);font-size:14px;background:repeating-linear-gradient(135deg,var(--card2) 0 10px,var(--card) 10px 20px)}
+.top{background:rgba(4,11,20,.82)!important}
+.scard .st{position:absolute;left:10px;top:10px;font-size:12px;border-radius:99px;padding:3px 10px;background:var(--green);color:#06210f;font-weight:500}
+.scard .st.w{background:#f3b23a;color:#2a1a00}
+.scard .bd{padding:12px 14px 14px}
+.scard h4{margin:0 0 2px;font:600 17px/1.3 "Prompt"}
+.scard .meta{font-size:14px;color:var(--mut)}
+.scard .kv{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.kv span{font-size:12px;background:var(--card2);border-radius:8px;padding:3px 8px}
+.empty-refs{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:18px;color:var(--mut)}
+
+table.spec{width:100%;border-collapse:collapse;font-size:15px}
+.spec th,.spec td{padding:10px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.spec th{width:38%;color:var(--mut);font-weight:400}
+.spec tr:first-child th,.spec tr:first-child td{border-top:0}
+
+/* map page */
+.mapwrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+@media(max-width:960px){.mapwrap{grid-template-columns:1fr}}
+.mapbox{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.mapbox svg{display:block;width:100%;height:clamp(460px,72vh,780px);touch-action:manipulation}
+.prov{fill:#13283b;stroke:#06111c;stroke-width:14}
+.outl{fill:none;stroke:#3a5f7c;stroke-width:18}
+.pin{cursor:pointer}
+.pin circle.c{stroke:#fff;stroke-width:22;transition:r .2s}
+.pin.on circle.c{stroke:var(--ink);stroke-width:34}
+.pin text{font:700 120px "Bai Jamjuree";fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.regions{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2;right:10px}
+.regions button{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:14px;min-height:38px;box-shadow:var(--sh)}
+.regions button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.legend{position:absolute;left:10px;bottom:10px;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;display:grid;gap:4px}
+@media(max-width:600px){.legend{position:static;grid-template-columns:1fr 1fr;border-radius:0;border:0;border-top:1px solid var(--line)}.mapbox svg{height:62vh}}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2px solid #fff}
+.side{display:grid;gap:12px}
+.filters{display:grid;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.filters input,.filters select{width:100%;font:16px "Prompt";padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.slist2{display:grid;gap:8px;max-height:560px;overflow:auto;padding-right:4px}
+.srow{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;text-align:left;width:100%}
+.srow .t{width:64px;height:48px;border-radius:9px;background:var(--card2) center/cover}
+.srow b{display:block;font-weight:500;font-size:15px;line-height:1.3}
+.srow small{color:var(--mut);font-size:13px}
+.srow .q{font:700 15px "Bai Jamjuree";color:var(--blue);white-space:nowrap}
+.srow[aria-current=true]{border-color:var(--blue);box-shadow:0 0 0 2px color-mix(in srgb,var(--blue) 40%,transparent)}
+
+/* station sheet */
+.scrim{position:fixed;inset:0;background:rgba(4,14,24,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:61;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);transform:translateX(102%);transition:transform .28s ease;overflow-y:auto;box-shadow:-20px 0 40px -20px rgba(0,0,0,.4)}
+.sheet.on{transform:none}
+.sheet .hd{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 12px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sheet .hd b{flex:1;font-weight:500}
+.x{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:20px}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:0;background:#000}
+.car img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;min-width:0}
+.carnav{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;font-size:13px;color:var(--mut)}
+.carnav button{border:1px solid var(--line);background:var(--card);border-radius:10px;min-width:44px;min-height:40px}
+.sheet .in{padding:6px 18px 24px}
+.sheet h2{font-size:26px}
+.sheet .gl{height:300px;border-radius:14px;border:1px solid var(--line);overflow:hidden;margin-top:14px}
+
+/* contact */
+.contact{background:radial-gradient(80% 120% at 100% 0%,rgba(0,137,209,.25),transparent 60%),#040b14;color:#e6f0f7;border-top:1px solid var(--line)}
+.contact .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;padding-top:40px;padding-bottom:40px;align-items:center}
+.ccard{background:#fff;color:#0b1f33;border-radius:22px;padding:22px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px;align-items:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.ccard img{width:96px}
+.ccard h3{font-size:22px}
+.ccard .role{color:#4f6475;font-size:14px;margin-bottom:8px}
+.ccard .ln{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ccard .ln a{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:8px 12px;border-radius:10px;background:#eef4f8;text-decoration:none;font-size:15px}
+.ccard .ln a.p{background:var(--sc);color:#fff}
+.ccard .ln a.l{background:#06c755;color:#fff}
+.addr{font-size:13px;color:#56697a;margin-top:10px}
+.contact h2{color:#fff}
+.contact .tb{display:flex;align-items:center;gap:14px;margin-top:16px}
+.contact .tb img{width:84px}
+@media(max-width:820px){.contact .wrap{grid-template-columns:1fr}.ccard{grid-template-columns:1fr}}
+footer{background:#04111f;color:#8ea4b6;font-size:13px;padding:16px 0}
+footer .wrap{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+footer img{height:22px;opacity:.9}
+.fade{animation:fd .35s ease}@keyframes fd{from{opacity:0;transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){.fade{animation:none}.slide,.slide .art img,.bigword{transition-duration:.01s}}
+
+/* ===== v3: light glass premium ===== */
+:root,:root[data-theme=light],:root[data-theme=dark]{color-scheme:light;
+ --bg:#eef3f7;--card:rgba(255,255,255,.72);--card2:#e7eef4;--line:rgba(11,31,51,.10);--ink:#0b1f33;--mut:#5b6f80;--glass:rgba(255,255,255,.55)}
+body{background:radial-gradient(60vw 50vw at 0% 0%,rgba(0,137,209,.10),transparent 60%),radial-gradient(50vw 40vw at 100% 30%,rgba(117,193,136,.12),transparent 60%),#eef3f7 fixed}
+.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.85);box-shadow:0 20px 50px -30px rgba(11,31,51,.35),inset 0 1px 0 rgba(255,255,255,.9)}
+.top{background:transparent!important;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;padding-top:12px}
+.top .wrap{height:62px;background:rgba(255,255,255,.62);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.9);border-radius:99px;box-shadow:0 14px 40px -26px rgba(11,31,51,.45);padding:0 10px 0 22px;max-width:1240px}
+nav.tabs a[aria-current=page]{background:#0b1f33;color:#fff}
+.btn.k{background:#0b1f33;color:#fff}
+.chip{background:rgba(255,255,255,.7)}
+.chip[aria-pressed=true]{background:#0b1f33;color:#fff;border-color:#0b1f33}
+
+/* hero */
+.hero{background:transparent;color:var(--ink);min-height:0;display:block;padding:18px max(12px,2vw) 0}
+.hero .panel-r,.hero .glow{display:none}
+.stagecard{position:relative;max-width:1340px;margin:0 auto;border-radius:34px;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.75),rgba(255,255,255,.35));border:1px solid rgba(255,255,255,.95);box-shadow:0 40px 80px -50px rgba(11,31,51,.45),inset 0 1px 0 #fff}
+.stagecard::before{content:"";position:absolute;inset:0;background:radial-gradient(45% 60% at 72% 58%,rgba(0,137,209,.22),transparent 70%),radial-gradient(35% 45% at 95% 15%,rgba(117,193,136,.25),transparent 70%);pointer-events:none}
+.slides{position:relative;display:grid}
+.slide{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);grid-template-areas:"word word" "copy art";align-items:end;gap:0 10px;max-width:none;padding:104px clamp(18px,3.4vw,52px) 10px;opacity:0;visibility:hidden;transition:opacity .9s ease,visibility .9s}
+.slide.on{opacity:1;visibility:visible}
+.bigword{grid-area:word;font-family:"Michroma","Bai Jamjuree",sans-serif;font-size:clamp(46px,10.6vw,158px);line-height:.95;letter-spacing:-.02em;white-space:nowrap;text-align:center;background:linear-gradient(100deg,#0573c9 0%,#0a8fd0 40%,#2fae9a 75%,#75c188 100%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;transform:translateY(16px);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.slide.on .bigword{transform:none}
+.slide .copy{grid-area:copy;padding-bottom:26px;align-self:end}
+.eyebrow{color:var(--blue)}
+.slide h1{font-family:"Prompt",sans-serif;font-weight:500;font-size:clamp(24px,2.5vw,34px);line-height:1.25;text-transform:none;letter-spacing:0;margin:10px 0 0;color:var(--ink)}
+.slide .kw{color:var(--ink);margin-top:16px}
+.slide .kw small{color:var(--mut)}
+.btn.solid{background:#0b1f33;color:#fff}
+.btn.line{color:var(--ink);border-color:rgba(11,31,51,.25);background:rgba(255,255,255,.5)}
+.btn.line .arr{border-color:rgba(11,31,51,.25)}
+.slide .art{grid-area:art;margin-top:clamp(-150px,-9.5vw,-40px);position:relative}
+.slide .art img{width:104%;margin:0 -2%;filter:drop-shadow(0 34px 30px rgba(11,31,51,.28)) drop-shadow(0 6px 8px rgba(11,31,51,.18));transform:translateX(40px) scale(.98)}
+.slide.on .art img{transform:none}
+.slide .art .floor{background:radial-gradient(closest-side,rgba(11,31,51,.28),transparent);bottom:-2%}
+.kwchip{position:absolute;right:4%;bottom:14%;z-index:3;border-radius:18px;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.kwchip i{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#0b1f33;color:#fff;font-style:normal}
+.kwchip b{display:block;font:600 16px/1.1 "Bai Jamjuree"}.kwchip small{font-size:12px;color:var(--mut)}
+.trustchip{position:absolute;z-index:4;right:clamp(14px,3vw,40px);top:clamp(14px,2.4vw,30px);display:flex;align-items:center;gap:12px;border-radius:22px;padding:10px 16px 10px 10px}
+.trustchip .shine{width:62px}
+.trustchip b{display:block;font:600 15px/1.2 "Bai Jamjuree"}.trustchip small{font-size:12px;color:var(--mut)}
+.hero-foot{max-width:none;padding:0 clamp(18px,3.4vw,52px) 26px;grid-template-columns:minmax(0,1fr) auto}
+.stats{border-top:1px solid rgba(11,31,51,.12)}
+.stats b{color:var(--ink)}.stats b em{color:var(--blue)}
+.stats small{color:var(--mut)}
+.dots button{border-color:#0b1f33}.dots button[aria-current=true]{background:#0b1f33;width:26px;border-radius:99px}
+.dots button{transition:width .3s}
+.sctl .nav{background:rgba(255,255,255,.7);color:var(--ink);border-color:rgba(11,31,51,.18)}
+.slabel{color:var(--mut)}
+.prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(11,31,51,.06)}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0089d1,#75c188)}
+.prog i.run{animation:prog var(--dur,5s) linear forwards}
+@keyframes prog{from{width:0}to{width:100%}}
+@media(max-width:820px){
+ .slide{grid-template-columns:1fr;grid-template-areas:"word" "art" "copy";padding-top:104px}
+ .slide .art{margin-top:-6vw}.slide .art img{width:108%;margin:0 -4%}
+ .kwchip{display:none}.trustchip{left:12px;right:12px;justify-content:flex-start}
+ .hero-foot{grid-template-columns:1fr}}
+
+/* sheen on the Trusted by Entech badge (hexagon clip, no mask needed) */
+.shine{position:relative;display:inline-block;animation:floaty 6s ease-in-out infinite;filter:drop-shadow(0 12px 16px rgba(0,90,150,.28))}
+.shine img{display:block;width:100%;height:auto}
+.shine::before,.shine::after{content:"";position:absolute;inset:1.5% 2%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);pointer-events:none}
+.shine::before{background:linear-gradient(160deg,rgba(255,255,255,.38),rgba(255,255,255,0) 42%)}
+.shine::after{background:linear-gradient(115deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.25) 45%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.25) 55%,rgba(255,255,255,0) 62%) no-repeat;background-size:300% 100%;background-position:130% 0;animation:sheen 3.6s cubic-bezier(.45,.05,.3,1) infinite}
+@keyframes sheen{0%,40%{background-position:130% 0}100%{background-position:-30% 0}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* v3 trust band */
+.trust{background:transparent;color:var(--ink);border:0}
+.trust .wrap{margin-top:22px;border-radius:28px;padding:26px clamp(18px,3vw,36px);background:rgba(255,255,255,.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.9);box-shadow:0 30px 60px -40px rgba(11,31,51,.4)}
+.trust .shine{width:120px}
+.trust h3{font-family:"Michroma","Bai Jamjuree",sans-serif;font-weight:400;font-size:clamp(24px,3.3vw,46px);line-height:1.08;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:12px;color:var(--ink)}
+.trust h3 span{display:inline-block;background:linear-gradient(100deg,#0573c9 0%,#0a8fd0 35%,#2fae9a 70%,#75c188 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.trust .shine{width:clamp(110px,12vw,150px)}
+.trust .flow{color:var(--mut)}
+.trust li{background:rgba(255,255,255,.8);border:1px solid rgba(11,31,51,.08);color:var(--ink)}
+.trust li::before{content:"✓";color:var(--green);margin-right:6px;font-weight:700}
+/* v3 cards */
+.mcard{background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 40px -32px rgba(11,31,51,.45)}
+.mcard .pic{background:radial-gradient(70% 60% at 50% 100%,rgba(0,137,209,.16),transparent 70%),linear-gradient(#f7fafc,#eaf1f6)}
+.mcard .pic img{filter:drop-shadow(0 16px 14px rgba(11,31,51,.22))}
+.mcard .bd{border-top:1px solid rgba(11,31,51,.06)}
+.mcard .kw{color:var(--ink)}
+.mcard .tag{color:var(--blue)}
+.mcard .refs{background:rgba(117,193,136,.18);color:#1e7a3f;border-color:rgba(117,193,136,.5)}
+.panel,.scard,.filters,.srow,.mapbox,.empty-refs{background:rgba(255,255,255,.7);border-color:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 40px -34px rgba(11,31,51,.4)}
+.calc .big{color:var(--ink)}
+.tr .k{color:var(--blue)}
+.tr{background:rgba(0,137,209,.07);border-color:rgba(0,137,209,.22)}
+.gl{background:radial-gradient(120% 90% at 50% 0%,#ffffff,#dde8f0 75%)}
+.bays button{background:rgba(255,255,255,.75)}
+.bays button[aria-pressed=true]{background:#0b1f33;color:#fff;border-color:#0b1f33}
+/* v3 model header */
+.mhead{background:transparent;color:var(--ink);position:relative;overflow:hidden;padding:0 max(12px,2vw)}
+.mhead .wrap{position:relative;border-radius:34px;margin-top:18px;background:linear-gradient(160deg,rgba(255,255,255,.78),rgba(255,255,255,.38));border:1px solid rgba(255,255,255,.95);box-shadow:0 40px 80px -50px rgba(11,31,51,.45);padding:22px clamp(18px,3vw,40px) 0;overflow:hidden}
+.mhead .wrap::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 70% at 75% 70%,rgba(0,137,209,.22),transparent 70%),radial-gradient(30% 40% at 100% 0%,rgba(117,193,136,.22),transparent 70%);pointer-events:none}
+.mword{position:absolute;right:-1%;top:6%;font-family:"Michroma",sans-serif;font-size:clamp(60px,11vw,170px);line-height:.9;white-space:nowrap;background:linear-gradient(100deg,#0573c9,#2fae9a 60%,#75c188);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.16;pointer-events:none;user-select:none}
+.back{color:var(--ink)}
+.mhead h1{color:var(--ink)}
+.mhead .sub{color:var(--mut)}
+.keyspec div{border-top:1px solid rgba(11,31,51,.14)}
+.gal img{filter:drop-shadow(0 26px 22px rgba(11,31,51,.28))}
+@media(max-width:820px){.mhead{background:transparent}}
+/* v3 map */
+.prov{fill:#dbe5ed;stroke:#fff}
+.outl{stroke:#9bb4c6}
+/* v3 contact */
+.contact{background:transparent;color:#fff;border:0;padding:30px max(12px,2vw)}
+.contact .wrap{border-radius:34px;background:radial-gradient(60% 80% at 100% 0%,rgba(255,255,255,.25),transparent 60%),var(--grad);box-shadow:0 40px 80px -40px rgba(0,90,150,.55);padding:40px clamp(20px,4vw,56px)}
+.contact .eyebrow{color:#e6f6ff}
+.contact .tb .shine{width:96px}
+.ccard{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.95)}
+footer{background:transparent;color:var(--mut)}
+footer .wrap{border-top:1px solid rgba(11,31,51,.1);padding-top:14px}
+footer img{filter:invert(1) hue-rotate(180deg) brightness(.4)}
+.sheet{background:#f3f7fa}
+</style></head><body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#home" aria-label="หน้าแรก"><img src="img/p-evcarfe.webp" alt="EVCarfe by EV Cafe"><span class="xx">×</span><img class="ent" src="img/logo.webp" alt="Entech Energy"></a>
+  <nav class="tabs" aria-label="เมนู"><a href="#home">หน้าแรก</a><a href="#models">รุ่นเครื่อง</a><a href="#map">สถานีทั่วประเทศ</a><a href="#contact">ติดต่อ</a></nav>
+</div></header>
+<main id="view"></main>
+<section class="contact" id="contactBand"><div class="wrap">
+  <div>
+    <div class="eyebrow">Authorized StarCharge Partner</div><h2 style="font-family:Michroma,Bai Jamjuree,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(24px,3vw,36px);margin-top:12px;line-height:1.2">Your Station,<br>Backed by Entech</h2>
+    <p style="opacity:.9;max-width:32em">ปรึกษาทีม EV Cafe เพื่อสำรวจหน้างาน ประเมินขนาดหม้อแปลง และวางแบบสถานี StarCharge ที่เหมาะกับธุรกิจของคุณ พร้อมการรับประกันและบริการหลังการขายจาก Entech Energy</p>
+    <div class="tb"><span class="shine"><img src="img/trusted.webp" alt="Trusted by Entech Energy · Warranty & Service"></span><span class="sm" style="opacity:.85">Warranty & Service<br>โดย Entech Energy</span></div>
+  </div>
+  <div class="ccard">
+    <img src="img/p-evcarfe.webp" alt="EVCarfe by EV Cafe">
+    <div>
+      <h3>คุณสมยศ ตะเคียนเกลี้ยง</h3>
+      <div class="role">Somyot Takhienklieng · Sales Manager<br>EV Cafe</div>
+      <div class="num" style="font-size:24px;font-weight:700">062-869-5595</div>
+      <div class="sm">somyot.evcarfe@gmail.com · LINE ID 0628695595</div>
+      <div class="ln">
+        <a class="p" href="tel:0628695595">โทร 062-869-5595</a>
+        <a class="l" href="https://line.me/ti/p/~0628695595">LINE</a>
+        <a href="https://www.facebook.com/evcarfe">Facebook EVCarfe'</a>
+        <a href="https://www.facebook.com/somyot.takheinklieng">Somyot EV Charger</a>
+      </div>
+      <div class="addr">36/98 หมู่ 9 ถ.ติวานนท์ ต.บางพูด อ.ปากเกร็ด จ.นนทบุรี 11120 · เลขผู้เสียภาษี 0105544109248</div>
+    </div>
+  </div>
+</div></section>
+<footer><div class="wrap"><span>StarCharge Catalog สำหรับ EV Cafe · ข้อมูลสเปกจาก Thailand EVSE Datasheet 11/2026 · ภาพสินค้าเพื่อประกอบเท่านั้น</span><span style="display:flex;gap:10px;align-items:center"><img src="img/logo-white.webp" alt="Entech Energy"></span></div></footer>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-modal="true" role="dialog" aria-label="รายละเอียดสถานี"></aside>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+{
+const MAP={"vb": [6167, 11150], "prov": "M3675 5393L3793 5594L3805 5738L3728 5838L3738 5912L3682 5918L3716 6032L3670 6095L3640 6004L3590 6010L3643 6088L3611 6090L3497 5971L3516 5930L3451 5921L3491 5946L3486 5986L3291 5819L3315 5676L3261 5636L3218 5500L3354 5437L3434 5349L3467 5477L3561 5416L3633 5445L3675 5393ZM840 8287L944 8331L889 8622L992 8688L995 8745L954 8787L1075 8814L1038 8865L1028 9002L879 9034L892 9114L839 9172L757 9095L700 8880L746 8649L840 8513L805 8526L796 8501L834 8487L795 8419L840 8287ZM945 9188L999 9247L1000 9326L975 9331L945 9188ZM2009 7954L2059 7970L2076 8051L2002 8011L2009 7954ZM2074 8117L2056 8199L1973 8232L1957 8124L2074 8117ZM1126 8043L1389 7960L1519 8253L1451 8305L1469 8369L1629 8392L1663 8342L1846 8310L1816 8427L1857 8495L1784 8592L1710 8605L1668 8655L1665 8737L1610 8832L1523 8891L1491 8875L1478 9022L1223 9043L1200 8900L1224 8844L1116 8779L1075 8814L979 8813L954 8787L995 8745L992 8688L889 8622L892 8569L924 8555L928 8315L1046 8278L1034 8230L1120 8139L1126 8043ZM1008 9058L1038 8865L1116 8779L1224 8844L1200 8900L1223 9043L1478 9022L1514 9058L1493 9197L1536 9276L1500 9381L1533 9457L1512 9496L1471 9525L1384 9460L1325 9493L1294 9408L1335 9327L1304 9343L1215 9237L1116 9255L1085 9086L1070 9107L1062 9046L1008 9058ZM1370 9654L1326 9636L1299 9538L1339 9559L1370 9654ZM2162 10224L2138 10227L2110 10412L2092 10346L2063 10365L1908 10168L1786 10094L1781 9985L1829 9909L1887 9900L1930 9954L1970 9909L2050 9958L2104 10054L2172 10088L2162 10224ZM1772 10373L1724 10310L1765 10207L1800 10328L1772 10373ZM1866 9562L2050 9958L2007 9953L1955 9910L1930 9954L1887 9900L1791 9919L1776 9879L1711 9890L1679 9826L1721 9729L1686 9783L1655 9723L1628 9800L1571 9776L1471 9525L1533 9457L1500 9381L1531 9314L1577 9353L1678 9361L1727 9287L1830 9288L1818 9350L1881 9506L1866 9562ZM3702 6064L3682 5918L3738 5912L3728 5838L3799 5778L3794 5840L3997 6017L3962 6072L3953 6222L4112 6494L4123 6565L4011 6394L3990 6294L3884 6175L3853 6177L3846 6280L3790 6216L3661 6188L3636 6115L3702 6064ZM3848 6507L3890 6556L3885 6645L3835 6615L3848 6507ZM3659 6346L3628 6215L3713 6255L3769 6338L3659 6346ZM2161 9438L2120 9477L2151 9627L2237 9752L2292 9776L2220 9853L2038 9937L1866 9562L1881 9506L1828 9381L1985 9342L2161 9438ZM2658 2151L2609 2328L2638 2429L2686 2431L2759 2503L2712 2670L2742 2738L2623 2842L2645 2897L2608 2919L2551 3072L2465 3151L2379 3020L2194 3033L2156 2972L2014 3045L1932 2979L1942 2878L1911 2867L1958 2774L2073 2751L2082 2707L1932 2555L2133 2530L2195 2405L2401 2361L2603 2152L2658 2151ZM2014 3045L1914 3356L1756 3567L1666 3471L1484 3491L1399 3463L1340 3506L1275 3072L1453 3013L1528 2759L1657 2768L1773 2873L1891 2872L1932 2979L2014 3045ZM1988 3161L2014 3045L2156 2972L2194 3033L2379 3020L2486 3221L2441 3368L2539 3415L2529 3456L2149 3463L2021 3273L1988 3161ZM2147 4174L2138 4456L2200 4578L2181 4707L2108 4771L1989 4768L1864 4830L1832 4750L1873 4683L1903 4407L1767 4293L1672 4292L1661 4342L1611 4369L1596 4315L1486 4239L1483 4143L1514 4090L1582 4142L1736 4181L1752 4148L1975 4208L2034 4169L2097 4197L2147 4174ZM2179 4517L2138 4456L2163 4295L2241 4292L2338 4341L2365 4370L2355 4539L2306 4547L2294 4500L2179 4517ZM2365 4370L2306 4194L2312 4095L2393 3947L2513 3832L2520 3773L2687 3783L2871 3843L2921 3913L2908 4070L2980 4089L3029 4235L2907 4333L2770 4244L2678 4320L2624 4300L2588 4224L2421 4391L2365 4370ZM2365 4370L2421 4391L2408 4440L2443 4471L2548 4460L2587 4694L2396 4789L2202 4788L2197 4751L2157 4744L2200 4578L2179 4517L2294 4500L2306 4547L2355 4539L2365 4370ZM1989 4768L2197 4751L2238 5071L2186 5122L2033 5098L2022 5066L1976 5081L1958 4929L1914 4915L1864 4830L1989 4768ZM2312 4095L2338 4341L2241 4292L2163 4295L2147 4174L2212 4144L2190 4058L2216 4017L2312 4095ZM2216 4017L2187 4175L2097 4197L2034 4169L1975 4208L1801 4171L1860 4077L1795 3944L1825 3910L2031 3947L2020 3861L2079 3832L2182 3929L2216 4017ZM2336 5242L2288 5246L2241 5021L2350 5021L2394 4911L2486 4932L2647 4907L2662 5004L2614 5097L2511 5083L2477 5126L2420 5116L2427 5094L2359 5117L2336 5242ZM2486 4932L2257 4871L2250 4790L2442 4777L2618 4680L2651 4714L2647 4907L2486 4932ZM2250 4790L2257 4871L2394 4911L2350 5021L2241 5021L2208 4953L2202 4788L2250 4790ZM2604 5253L2425 5199L2336 5242L2333 5178L2359 5117L2427 5094L2420 5116L2477 5126L2511 5083L2614 5097L2679 5142L2604 5253ZM2288 5246L2198 5228L2065 5295L2028 5238L2057 5106L2186 5122L2238 5071L2288 5246ZM2028 5238L2065 5295L1924 5433L1900 5367L1942 5234L2028 5238ZM1900 5367L1924 5433L1974 5394L2077 5565L1975 5874L1734 5941L1575 5926L1438 5803L1392 5613L1351 5581L1357 5483L1418 5454L1478 5501L1533 5442L1703 5468L1760 5452L1789 5380L1900 5367ZM2647 4907L2816 4892L2832 4978L2970 4970L3123 5049L3258 5010L3311 5072L3345 5067L3387 5169L3421 5164L3427 5234L3397 5243L3434 5349L3354 5437L3236 5472L3093 5306L2981 5265L2917 5197L2828 5170L2705 5264L2604 5253L2679 5142L2609 5088L2662 5004L2647 4907ZM2816 4892L2648 4903L2651 4714L2677 4654L2740 4630L2753 4574L2829 4614L2914 4499L3082 4642L3069 4670L2998 4671L2938 4746L2948 4821L2870 4834L2816 4892ZM3236 5472L3058 5575L2849 5547L2836 5589L2783 5586L2789 5673L2724 5755L2705 5898L2664 5851L2621 5859L2606 5818L2664 5731L2627 5673L2673 5584L2633 5532L2681 5456L2657 5388L2754 5206L2828 5170L2917 5197L2981 5265L3093 5306L3236 5472ZM4318 4597L4206 4633L4085 4732L3856 4747L3871 4646L3773 4435L3788 4374L3741 4244L3829 4259L3804 4146L3927 4155L4033 4003L4121 3975L4124 3849L4097 3833L4143 3790L4013 3746L3977 3650L4033 3651L4056 3551L4087 3538L4250 3846L4315 3885L4392 3853L4488 3890L4450 3974L4454 4157L4344 4282L4307 4409L4318 4597ZM4087 3538L4056 3551L4033 3651L3997 3663L3907 3593L3714 3613L3680 3588L3651 3491L3690 3402L3600 3338L3697 3212L3728 3091L3698 3058L3464 3025L3374 2931L3252 2925L3229 2905L3255 2834L3452 2744L3576 2740L3708 2811L3836 2822L3914 2619L3982 2679L3991 2742L4078 2766L4188 2711L4197 2766L4237 2749L4228 2908L4179 3005L4073 3056L4015 3180L4025 3343L4087 3538ZM3255 2834L3210 2917L3120 2882L3058 2904L3060 2997L2968 3138L2931 3345L2975 3435L2935 3509L2938 3582L2985 3621L2970 3836L2921 3913L2871 3843L2687 3783L2520 3773L2584 3639L2539 3415L2441 3368L2441 3304L2486 3221L2465 3151L2551 3072L2608 2919L2645 2897L2623 2842L2720 2739L2780 2722L2789 2642L2842 2583L2920 2620L3025 2613L3095 2670L3151 2633L3204 2830L3255 2834ZM4228 2908L4247 2776L4237 2749L4197 2766L4208 2677L4391 2713L4417 2768L4465 2608L4518 2565L4774 2795L4837 2739L4869 2754L4951 2874L4998 3045L4871 3074L4853 3042L4687 3034L4618 3089L4649 3144L4634 3209L4441 3235L4330 3084L4246 3106L4253 2914L4228 2908ZM2848 4314L2846 4468L2886 4516L2861 4592L2829 4614L2753 4574L2740 4630L2677 4654L2651 4714L2618 4680L2587 4694L2548 4460L2443 4471L2408 4440L2433 4365L2588 4224L2624 4300L2678 4320L2770 4244L2848 4314ZM2886 4516L2846 4468L2848 4314L2907 4333L3029 4235L2980 4089L2908 4070L2921 3913L2997 3977L3336 3847L3444 3645L3476 3673L3539 3580L3649 3534L3714 3613L3907 3593L3977 3650L4013 3746L4143 3790L4097 3833L4124 3849L4121 3975L4033 4003L3927 4155L3804 4146L3829 4259L3741 4244L3787 4483L3871 4646L3824 4789L3785 4753L3647 4765L3574 4725L3549 4760L3492 4746L3401 4674L3397 4585L3354 4575L3249 4632L3156 4549L3063 4530L3005 4556L2914 4499L2886 4516ZM4833 3801L4933 3685L5055 3846L5175 3902L5334 3910L5373 3964L5340 4017L5347 4112L5445 4190L5511 4341L5476 4342L5454 4412L5516 4533L5412 4502L5250 4564L4993 4538L4893 4575L4897 4349L4847 4243L4802 4227L4862 4074L4827 3975L4843 3904L4895 3850L4887 3806L4833 3801ZM4990 3653L4833 3801L4767 3759L4427 3797L4443 3736L4340 3667L4368 3610L4438 3581L4475 3426L4458 3280L4492 3221L4634 3209L4649 3144L4618 3089L4687 3034L4853 3042L4871 3074L5046 3028L5080 3123L5061 3170L4908 3295L4910 3378L4847 3384L4843 3515L4887 3479L4990 3653ZM3452 2744L3204 2830L3151 2633L3095 2670L3025 2613L2920 2620L2842 2583L2789 2642L2780 2722L2742 2738L2712 2670L2759 2503L2686 2431L2638 2429L2609 2328L2647 2263L2784 2330L2972 2128L3019 2138L3080 2084L3094 2028L3200 1994L3241 1875L3322 1901L3462 1770L3407 1940L3410 2122L3494 2286L3391 2331L3413 2427L3361 2516L3504 2648L3426 2700L3452 2744ZM3429 1861L3462 1770L3507 1778L3604 1885L3788 1941L3810 2030L3872 2058L3860 2029L3989 1936L4119 1920L4194 1749L4295 1692L4299 1736L4350 1769L4317 1852L4398 1914L4360 1923L4375 2005L4319 2030L4280 1998L4211 2056L4133 1996L4086 2044L4013 2000L3999 2117L3912 2211L3858 2214L3772 2103L3725 2101L3664 2000L3533 1911L3496 1929L3429 1861ZM5232 3300L5530 3132L5572 3243L5619 3276L5569 3348L5587 3418L5490 3738L5327 3628L5266 3682L5205 3665L5140 3565L5166 3423L5232 3300ZM5530 3132L5407 3212L5278 3197L5180 3107L5063 3119L5046 3028L4998 3045L4951 2874L4869 2754L4917 2707L4986 2704L5032 2734L5300 2750L5304 2787L5348 2797L5355 2750L5359 2964L5530 3132ZM4986 2704L4917 2707L4889 2750L4837 2739L4774 2795L4566 2606L4522 2521L4294 2448L4298 2294L4377 2204L4360 1923L4471 1859L4538 1895L4530 1924L4617 1964L4627 1941L4655 2000L4726 1990L4778 2067L4806 2043L4855 2134L4812 2287L4849 2347L5098 2314L5124 2440L5069 2564L5093 2597L4986 2704ZM3143 10408L3183 10277L3219 10272L3538 10542L3529 10662L3455 10723L3422 10835L3339 10923L3229 10892L3176 10802L3118 10812L3109 10700L3031 10589L3069 10431L3143 10408ZM3280 10311L3219 10272L3183 10277L3190 10326L3122 10296L3003 10330L2969 10242L2921 10292L2865 10294L2795 10255L2779 10149L2798 10106L2927 10073L3006 10091L2940 10041L2983 10038L3163 10123L3280 10311ZM928 8315L840 8287L889 8137L943 8125L894 8097L931 8060L921 8012L968 7995L926 7972L969 7946L930 7926L1017 7834L996 7812L1081 7640L1133 7426L1115 7302L1196 7229L1265 7371L1214 7496L1248 7557L1209 7669L1239 7715L1214 7794L1023 7964L1041 8059L1120 8139L1034 8230L1046 8278L928 8315ZM1531 9314L1493 9197L1514 9058L1461 8981L1491 8875L1523 8891L1610 8832L1665 8737L1668 8655L1710 8605L1784 8592L1857 8495L1816 8427L1831 8332L1868 8303L1905 8323L1951 8464L1983 8804L2089 8965L2149 8980L2133 8904L2174 8942L2264 9316L2128 9363L2109 9416L1985 9342L1828 9381L1812 9278L1727 9287L1678 9361L1577 9353L1531 9314ZM2050 9958L2060 9911L2220 9853L2292 9776L2326 9878L2371 9901L2422 9897L2444 9838L2576 10015L2798 10106L2777 10197L2825 10306L2771 10385L2695 10417L2692 10486L2621 10516L2607 10431L2539 10374L2492 10408L2249 10314L2222 10231L2162 10224L2172 10088L2104 10054L2050 9958ZM2212 9421L2109 9416L2128 9363L2264 9316L2417 9859L2327 9807L2300 9588L2253 9582L2227 9624L2239 9448L2212 9421ZM2067 1346L2228 1343L2269 1576L2354 1591L2337 1737L2269 1844L2281 1928L2222 2017L2188 1971L1952 2102L1835 2101L1804 2146L1749 2092L1670 2085L1530 2176L1505 2113L1547 2106L1713 1917L1791 1891L2063 1527L2067 1346ZM2228 1343L2033 1337L1933 1220L1872 1209L1778 1042L1762 895L1916 855L1942 927L2036 893L2108 757L2249 676L2300 813L2379 833L2336 921L2404 974L2422 1106L2374 1140L2380 1180L2315 1169L2304 1210L2330 1217L2228 1343ZM1913 2086L1965 2159L1937 2251L2012 2358L1976 2554L1932 2555L1938 2586L2082 2707L2073 2751L1958 2774L1923 2904L1891 2872L1773 2873L1657 2768L1557 2775L1474 2704L1507 2486L1559 2527L1594 2510L1620 2415L1575 2337L1616 2142L1705 2077L1804 2146L1835 2101L1913 2086ZM1976 2554L2012 2358L1937 2251L1965 2159L1913 2086L1952 2102L2188 1971L2222 2017L2281 1928L2519 1919L2629 1754L2736 1663L2793 1698L2803 1896L2694 2013L2658 2151L2603 2152L2401 2361L2195 2405L2133 2530L1976 2554ZM1389 5078L1245 4825L993 4640L744 4285L698 3980L774 3930L851 3953L855 3882L910 3862L952 3904L971 3882L960 3648L1045 3690L1206 3938L1270 3981L1285 4086L1341 4134L1483 4143L1486 4239L1596 4315L1611 4369L1661 4342L1672 4292L1767 4293L1903 4407L1873 4683L1832 4750L1914 4915L1855 5010L1389 5078ZM960 3648L969 3369L1167 3304L1215 3144L1150 3088L1059 3209L1041 3189L1023 3070L900 2879L945 2813L938 2755L886 2668L800 2638L516 2268L794 2166L763 2251L807 2293L817 2455L872 2493L976 2465L975 2267L1011 2256L1011 2189L1080 2123L1105 2175L1077 2190L1088 2321L1189 2287L1236 2205L1292 2229L1316 2397L1405 2432L1474 2389L1509 2597L1474 2704L1528 2759L1453 3013L1275 3072L1302 3388L1333 3412L1372 3617L1270 3981L1206 3938L1045 3690L960 3648ZM1370 3579L1617 3729L1800 3644L1889 3676L1933 3763L2028 3814L2031 3947L1825 3910L1795 3944L1860 4077L1801 4171L1582 4142L1514 4090L1483 4143L1341 4134L1285 4086L1270 3981L1370 3579ZM2141 3878L1933 3763L1889 3676L1800 3644L1617 3729L1370 3579L1340 3506L1399 3463L1484 3491L1666 3471L1756 3567L1914 3356L1988 3161L2021 3273L2149 3463L2529 3456L2586 3679L2513 3832L2393 3947L2312 4095L2256 4071L2141 3878ZM1386 7045L1547 6798L1602 6636L1667 6612L1739 6476L1658 6322L1677 6245L1620 6249L1563 6000L1575 5926L1734 5941L1975 5874L2019 6199L1901 6364L1874 6530L1827 6553L1748 6690L1696 6829L1708 6917L1641 6990L1648 7076L1476 7105L1386 7045ZM5619 3276L5833 3326L5803 3400L5843 3487L5988 3540L6017 3604L5977 3760L5905 3799L5963 3872L5887 3946L5887 4006L5990 4080L5920 4232L5930 4416L5875 4498L5690 4575L5614 4663L5558 4541L5474 4499L5454 4412L5476 4342L5511 4341L5445 4190L5347 4112L5340 4017L5373 3964L5334 3910L5144 3886L5157 3838L5115 3777L5129 3707L5192 3701L5205 3665L5266 3682L5327 3628L5490 3738L5587 3418L5569 3348L5619 3276ZM4085 4732L3935 5030L3823 5115L3864 5146L3674 5179L3675 5393L3633 5445L3561 5416L3467 5477L3397 5243L3427 5234L3421 5164L3387 5169L3353 5103L3366 5003L3329 4974L3365 4848L3424 4813L3468 4726L3549 4760L3574 4725L3647 4765L3785 4753L3824 4789L3856 4747L4085 4732ZM3291 5819L3217 5817L3186 5855L3032 5896L2902 5851L2786 5837L2708 5868L2704 5845L2789 5673L2783 5586L2836 5589L2849 5547L3058 5575L3178 5488L3218 5500L3261 5636L3315 5676L3291 5819ZM2921 3913L2970 3836L2985 3621L2938 3582L2975 3435L2931 3345L2968 3138L3060 2997L3058 2904L3120 2882L3374 2931L3464 3025L3698 3058L3728 3091L3697 3212L3600 3338L3690 3402L3649 3534L3539 3580L3476 3673L3444 3645L3336 3847L2997 3977L2921 3913ZM4893 4575L4768 4588L4632 4561L4592 4522L4318 4597L4307 4409L4344 4282L4454 4157L4450 3974L4488 3890L4392 3853L4315 3885L4201 3794L4211 3761L4375 3817L4550 3767L4690 3784L4767 3759L4887 3806L4895 3850L4827 3975L4862 4074L4802 4227L4847 4243L4897 4349L4893 4575ZM4938 1879L5099 2109L5309 2239L5384 2341L5384 2490L5341 2599L5348 2797L5304 2787L5300 2750L5032 2734L4986 2704L5093 2597L5069 2564L5124 2440L5098 2314L4849 2347L4812 2287L4855 2134L4791 1999L4827 1944L4876 1993L4886 1893L4938 1879ZM4299 1736L4255 1663L4268 1615L4356 1583L4709 1688L4789 1662L4938 1879L4886 1893L4876 1993L4801 1953L4806 2043L4778 2067L4726 1990L4655 2000L4627 1941L4617 1964L4530 1924L4538 1895L4471 1859L4398 1914L4317 1852L4350 1769L4299 1736ZM516 2268L354 2065L410 1964L316 1763L330 1716L276 1699L253 1745L200 1695L150 1557L241 1579L407 1522L390 1307L347 1262L455 1126L426 916L483 846L477 801L595 740L607 620L737 683L754 722L921 693L1011 859L997 1061L1043 1136L1031 1170L906 1205L821 1184L729 1089L669 1152L644 1333L665 1547L730 1606L654 1693L671 1876L641 1924L752 2065L730 2105L754 2149L794 2166L516 2268ZM805 9394L779 9442L739 9324L765 9133L874 9224L844 9305L875 9355L844 9407L805 9394ZM1648 7076L1654 7172L1611 7165L1503 7345L1463 7482L1486 7545L1394 7545L1459 7650L1400 7713L1389 7960L1126 8043L1102 8099L1041 8059L1023 7964L1214 7794L1239 7715L1209 7669L1248 7557L1214 7496L1265 7371L1196 7229L1265 7203L1285 7105L1324 7114L1386 7045L1476 7105L1648 7076ZM3118 10812L2934 10890L2862 10999L2727 10895L2762 10809L2803 10793L2810 10554L2731 10535L2628 10562L2621 10516L2692 10486L2695 10417L2771 10385L2823 10267L2921 10292L2969 10242L3003 10330L3122 10296L3199 10342L3143 10408L3069 10431L3031 10589L3109 10700L3118 10812ZM1636 365L1648 333L1575 202L1735 252L1935 150L2069 299L2187 181L2295 333L2356 357L2249 676L2108 757L2036 893L1942 927L1916 855L1762 895L1730 842L1694 864L1675 1119L1563 1212L1499 1074L1507 810L1472 726L1574 611L1552 555L1590 497L1667 539L1693 471L1638 437L1675 386L1636 365ZM921 693L959 715L1150 619L1203 664L1266 633L1295 447L1365 391L1489 431L1636 365L1675 386L1637 415L1693 471L1667 539L1590 497L1552 555L1574 611L1472 726L1507 810L1499 1074L1563 1212L1512 1307L1531 1499L1504 1555L1438 1510L1407 1426L1291 1454L1232 1556L1074 1634L1060 1723L1130 1758L1146 1943L1221 2077L1212 2130L1048 2137L955 2333L976 2465L872 2493L817 2455L807 2293L763 2251L794 2166L754 2149L730 2105L752 2065L641 1924L671 1876L654 1693L730 1606L665 1547L644 1333L669 1152L729 1089L821 1184L906 1205L1031 1170L997 1061L1011 859L921 693ZM1080 2123L1171 2153L1221 2077L1146 1943L1130 1758L1060 1723L1074 1634L1232 1556L1291 1454L1407 1426L1501 1577L1449 1595L1357 1743L1295 1766L1400 2082L1359 2091L1322 2222L1236 2205L1189 2287L1124 2322L1088 2321L1077 2190L1105 2175L1080 2123ZM2336 921L2419 808L2503 851L2587 754L2845 782L2800 947L2838 1096L2907 1185L2842 1280L2850 1440L2737 1561L2705 1622L2736 1663L2629 1754L2574 1876L2519 1919L2281 1928L2269 1844L2299 1830L2363 1626L2354 1591L2269 1576L2228 1343L2330 1217L2304 1210L2315 1169L2380 1180L2374 1140L2422 1106L2404 974L2336 921ZM2067 1346L2063 1527L2029 1536L1986 1645L1791 1891L1713 1917L1547 2106L1505 2113L1530 2176L1616 2142L1579 2262L1588 2389L1620 2415L1594 2510L1559 2527L1507 2486L1474 2389L1405 2432L1316 2397L1292 2229L1408 2045L1361 2003L1295 1766L1357 1743L1449 1595L1501 1577L1539 1383L1512 1307L1543 1229L1675 1119L1694 864L1730 842L1762 895L1778 1042L1835 1166L2067 1346ZM2816 4892L2870 4834L2948 4821L2930 4770L2998 4671L3069 4670L3082 4642L3005 4556L3063 4530L3156 4549L3249 4632L3354 4575L3397 4585L3401 4674L3468 4726L3339 4913L3329 4974L3366 5003L3345 5067L3311 5072L3258 5010L3123 5049L2970 4970L2832 4978L2816 4892ZM1900 5367L1789 5380L1760 5452L1703 5468L1533 5442L1478 5501L1418 5454L1389 5078L1855 5010L1914 4915L1958 4929L1963 5061L2057 5106L2028 5238L1942 5234L1900 5367ZM5407 3212L5232 3300L5166 3423L5140 3565L5205 3665L5192 3701L5129 3707L5144 3886L5055 3846L4949 3732L4933 3685L4990 3653L4929 3584L4930 3521L4887 3479L4843 3515L4847 3384L4910 3378L4908 3295L5113 3106L5225 3131L5278 3197L5407 3212ZM4211 3761L4110 3624L4132 3584L4087 3538L4025 3343L4015 3180L4073 3056L4179 3005L4228 2908L4253 2914L4246 3106L4330 3084L4441 3235L4492 3221L4458 3280L4475 3426L4438 3581L4368 3610L4340 3667L4443 3736L4427 3797L4375 3817L4211 3761ZM3429 1861L3496 1929L3533 1911L3664 2000L3725 2101L3772 2103L3858 2214L3912 2211L3999 2117L4013 2000L4086 2044L4133 1996L4211 2056L4280 1998L4319 2030L4375 2005L4377 2204L4298 2294L4277 2413L4294 2448L4522 2521L4566 2606L4518 2565L4465 2608L4417 2768L4391 2713L4275 2672L4208 2677L4078 2766L3991 2742L3982 2679L3914 2619L3879 2694L3761 2557L3817 2489L3733 2480L3654 2200L3552 2189L3479 2231L3439 2154L3418 2167L3429 1861ZM3879 2694L3836 2822L3802 2829L3641 2789L3611 2747L3452 2744L3426 2700L3504 2648L3361 2516L3413 2427L3391 2331L3494 2286L3497 2209L3654 2200L3733 2480L3817 2489L3761 2557L3879 2694Z", "outline": "M1326 9636L1304 9586L1299 9538L1339 9559L1370 9654L1326 9636ZM765 9133L874 9224L844 9305L875 9355L844 9407L805 9394L779 9442L739 9324L765 9133ZM1366 9488L1308 9475L1294 9408L1335 9327L1304 9343L1215 9237L1159 9267L1138 9234L1116 9255L1085 9086L1070 9107L1062 9046L1008 9058L1028 9002L879 9034L892 9114L839 9172L757 9095L700 8880L730 8795L718 8733L792 8557L840 8513L805 8526L796 8501L834 8487L795 8419L889 8137L911 8152L943 8125L894 8097L931 8060L921 8012L952 8022L968 7995L926 7972L969 7946L930 7926L1017 7834L996 7812L1081 7640L1133 7426L1101 7350L1115 7302L1215 7210L1265 7203L1285 7105L1324 7114L1438 6995L1593 6710L1602 6636L1667 6612L1739 6476L1698 6445L1698 6358L1658 6322L1677 6245L1620 6249L1563 6000L1575 5926L1438 5803L1392 5613L1351 5581L1357 5483L1418 5454L1419 5296L1350 4976L1245 4825L961 4599L869 4430L744 4285L689 4050L698 3980L774 3930L851 3953L855 3882L910 3862L952 3904L971 3882L959 3604L989 3427L969 3369L1008 3375L1042 3325L1130 3335L1167 3304L1215 3144L1150 3088L1059 3209L1041 3189L1023 3070L900 2879L945 2813L938 2755L886 2668L800 2638L568 2305L419 2176L354 2065L410 1964L316 1763L330 1716L276 1699L253 1745L200 1695L150 1557L241 1579L407 1522L390 1307L347 1262L455 1126L426 916L483 846L477 801L595 740L607 620L737 683L754 722L921 693L959 715L1150 619L1203 664L1290 590L1309 422L1407 388L1489 431L1636 365L1648 333L1575 202L1735 252L1816 235L1863 170L1935 150L2044 242L2069 299L2187 181L2227 203L2295 333L2356 357L2307 572L2244 647L2300 813L2361 843L2419 808L2503 851L2587 754L2845 782L2800 947L2838 1096L2907 1185L2842 1280L2829 1412L2850 1440L2705 1622L2793 1698L2775 1755L2803 1896L2694 2013L2610 2250L2784 2330L2972 2128L3010 2116L3019 2138L3080 2084L3094 2028L3200 1994L3241 1875L3322 1901L3437 1773L3507 1778L3679 1926L3788 1941L3820 1981L3810 2030L3872 2058L3860 2029L3989 1936L4048 1908L4119 1920L4146 1813L4194 1749L4295 1692L4255 1663L4300 1596L4511 1609L4709 1688L4754 1653L4789 1662L5099 2109L5309 2239L5384 2341L5384 2490L5341 2599L5372 2826L5359 2964L5558 3158L5572 3243L5833 3326L5803 3400L5843 3487L5988 3540L6017 3604L5977 3760L5905 3799L5904 3829L5958 3834L5963 3872L5887 3946L5887 4006L5990 4080L5949 4123L5962 4146L5920 4232L5930 4416L5875 4498L5690 4575L5653 4650L5585 4642L5558 4541L5412 4502L5286 4527L5250 4564L4993 4538L4967 4564L4768 4588L4632 4561L4624 4527L4537 4535L4243 4615L4099 4705L4055 4838L3986 4901L3935 5030L3823 5115L3864 5146L3804 5175L3674 5179L3675 5393L3793 5594L3794 5840L3997 6017L3962 6072L3953 6222L4112 6494L4123 6565L4011 6394L3990 6294L3919 6207L3853 6177L3846 6280L3790 6216L3661 6188L3636 6115L3674 6113L3702 6064L3670 6095L3640 6004L3590 6010L3643 6088L3611 6090L3497 5971L3516 5930L3479 5932L3491 5910L3451 5921L3491 5946L3486 5986L3451 5938L3382 5923L3291 5819L3217 5817L3186 5855L3032 5896L2786 5837L2708 5868L2705 5898L2664 5851L2621 5859L2606 5818L2664 5731L2627 5673L2673 5584L2633 5532L2681 5456L2657 5388L2706 5340L2705 5264L2425 5199L2400 5231L2309 5247L2198 5228L2029 5312L1974 5394L2077 5565L1978 5820L2012 6059L1991 6135L2019 6199L1901 6364L1874 6530L1827 6553L1748 6690L1696 6829L1708 6917L1641 6990L1654 7172L1611 7165L1503 7345L1463 7482L1493 7505L1486 7545L1394 7545L1459 7650L1430 7653L1400 7713L1389 7960L1416 8068L1519 8253L1451 8305L1469 8369L1559 8398L1629 8392L1663 8342L1786 8308L1905 8323L1951 8464L1983 8804L2089 8965L2149 8980L2133 8904L2174 8942L2337 9654L2430 9835L2417 9859L2327 9807L2300 9588L2253 9582L2227 9624L2216 9581L2251 9552L2239 9448L2212 9421L2120 9477L2151 9627L2237 9752L2286 9760L2328 9823L2303 9840L2326 9878L2422 9897L2444 9838L2576 10015L2710 10089L3006 10091L2940 10041L2983 10038L3163 10123L3342 10391L3538 10542L3529 10662L3455 10723L3422 10835L3339 10923L3229 10892L3176 10802L3118 10812L2934 10890L2917 10955L2829 11000L2727 10895L2762 10809L2803 10793L2820 10672L2789 10636L2810 10554L2731 10535L2628 10562L2607 10431L2539 10374L2492 10408L2300 10354L2249 10314L2222 10231L2138 10227L2110 10412L2092 10346L2063 10365L1908 10168L1786 10094L1781 9985L1829 9909L1791 9919L1776 9879L1711 9890L1679 9826L1721 9729L1686 9783L1655 9723L1628 9800L1571 9776L1530 9724L1498 9550L1384 9460L1366 9488ZM1765 10207L1800 10328L1772 10373L1724 10310L1765 10207ZM1957 8124L2074 8117L2056 8199L1973 8232L1957 8124ZM2059 7970L2076 8051L1989 7978L2009 7954L2059 7970ZM3848 6507L3890 6556L3885 6645L3835 6615L3848 6507ZM3723 6325L3721 6348L3659 6346L3628 6215L3713 6255L3769 6338L3758 6355L3723 6325Z", "st": [{"n": 7, "name": "The Pizza Phichit", "place": "Elexa · The Pizza Company EV Station", "prov": "พิจิตร", "dist": "เมืองพิจิตร", "m": "tv5180", "q": 2, "s": "done", "lat": 16.442, "lon": 100.348, "ex": 1, "x": 2237, "y": 3083, "ph": ["s07-1.webp", "s07-2.webp"]}, {"n": 8, "name": "PEA พิษณุโลก", "place": "PEA Volta · Phitsanulok Car Park", "prov": "พิษณุโลก", "dist": "เมืองพิษณุโลก", "m": "tv5180", "q": 2, "s": "done", "lat": 16.814083, "lon": 100.264333, "ex": 1, "x": 2177, "y": 2810, "ph": []}, {"n": 9, "name": "เหมยฮวา (Caltex)", "place": "Caltex ปทุมธานี", "prov": "ปทุมธานี", "dist": "", "m": "tv5240", "q": 2, "s": "wip", "lat": 14.02, "lon": 100.53, "ex": 0, "x": 2379, "y": 4858, "ph": []}, {"n": 10, "name": "ทองผาภูมิ", "place": "Elexa · Ari Power EV", "prov": "กาญจนบุรี", "dist": "ทองผาภูมิ", "m": "tv5180", "q": 1, "s": "done", "lat": 14.743, "lon": 98.636, "ex": 1, "x": 1024, "y": 4331, "ph": ["s10-1.webp", "s10-2.webp"]}, {"n": 11, "name": "EV ประเวศ", "place": "Elexa · BS Park Prawet", "prov": "กรุงเทพฯ", "dist": "ประเวศ", "m": "tv5180", "q": 1, "s": "done", "lat": 13.691, "lon": 100.685, "ex": 1, "x": 2491, "y": 5098, "ph": ["s11-1.webp", "s11-2.webp"]}, {"n": 12, "name": "บางจาก ม.นเรศวร", "place": "Elexa · Bangchak Tha Pho", "prov": "พิษณุโลก", "dist": "เมืองพิษณุโลก", "m": "tv5180", "q": 1, "s": "done", "lat": 16.752527, "lon": 100.20176, "ex": 1, "x": 2133, "y": 2856, "ph": ["s12-1.webp", "s12-2.webp"]}, {"n": 13, "name": "บัตเตอร์เวย์ (Mistine)", "place": "Elexa · Mistine EV Station", "prov": "กรุงเทพฯ", "dist": "สะพานสูง", "m": "tv5120", "q": 1, "s": "done", "lat": 13.792057, "lon": 100.702504, "ex": 1, "x": 2503, "y": 5024, "ph": ["s13-1.webp", "s13-2.webp"]}, {"n": 14, "name": "PEA ปั๊มแก๊ส LPG พิษณุโลก", "place": "PEA Volta · PTT Gas Station Tha Pho", "prov": "พิษณุโลก", "dist": "เมืองพิษณุโลก", "m": "tv5180", "q": 1, "s": "done", "lat": 16.76025, "lon": 100.220222, "ex": 1, "x": 2146, "y": 2850, "ph": ["s14-1.webp", "s14-2.webp"]}, {"n": 15, "name": "คุณชูชีพ พิชัย", "place": "PEA · Phichai Uttaradit", "prov": "อุตรดิตถ์", "dist": "พิชัย", "m": "tv5180", "q": 1, "s": "done", "lat": 17.311694, "lon": 100.124556, "ex": 1, "x": 2076, "y": 2446, "ph": ["s15-1.webp", "s15-2.webp"]}, {"n": 16, "name": "บ้านญ่า อพาร์ทเม้นท์", "place": "Elexa · Baanya Apartment", "prov": "กรุงเทพฯ", "dist": "ลาดกระบัง", "m": "tv5120", "q": 1, "s": "done", "lat": 13.727, "lon": 100.779, "ex": 1, "x": 2559, "y": 5071, "ph": ["s16-1.webp", "s16-2.webp"]}, {"n": 17, "name": "หจก.ช.นิเวศา 2008", "place": "PEA Volta · Phra Lue", "prov": "พิษณุโลก", "dist": "เมืองพิษณุโลก", "m": "tv5180", "q": 1, "s": "done", "lat": 16.822922, "lon": 100.251068, "ex": 1, "x": 2167, "y": 2804, "ph": ["s17-1.webp", "s17-2.webp"]}, {"n": 18, "name": "ชาละวันอารีน่า", "place": "PEA · Chalawan Phichit", "prov": "พิจิตร", "dist": "เมืองพิจิตร", "m": "tv5180", "q": 1, "s": "done", "lat": 16.433611, "lon": 100.35825, "ex": 1, "x": 2245, "y": 3089, "ph": ["s18-1.webp", "s18-2.webp"]}, {"n": 19, "name": "คู้บอน 18", "place": "Elexa · Khubon 18", "prov": "กรุงเทพฯ", "dist": "คันนายาว", "m": "tv5120", "q": 2, "s": "done", "lat": 13.848835, "lon": 100.666546, "ex": 1, "x": 2477, "y": 4983, "ph": ["s19-1.webp", "s19-2.webp"]}, {"n": 20, "name": "สากเหล็ก", "place": "PEA · Sak Lek Moonlight Cafe", "prov": "พิจิตร", "dist": "สากเหล็ก", "m": "tv5180", "q": 1, "s": "done", "lat": 16.468528, "lon": 100.491833, "ex": 1, "x": 2339, "y": 3063, "ph": ["s20-1.webp", "s20-2.webp"]}, {"n": 21, "name": "ปั๊ม PT สะกอม", "place": "Elexa · Sakom Chana", "prov": "สงขลา", "dist": "จะนะ", "m": "tv5120", "q": 1, "s": "done", "lat": 6.937973, "lon": 100.797207, "ex": 1, "x": 2600, "y": 10048, "ph": ["s21-1.webp", "s21-2.webp"]}, {"n": 22, "name": "บางจาก น้ำค้างออยล์ ปากช่อง", "place": "Elexa · Bangchak Namkhang Oil Pak Chong", "prov": "นครราชสีมา", "dist": "ปากช่อง", "m": "nova720", "q": 1, "s": "done", "lat": 14.668261, "lon": 101.443312, "ex": 1, "x": 3028, "y": 4377, "ph": ["s22-1.webp", "s22-2.webp"]}, {"n": 23, "name": "อเมซอน อุดร (โอชิเน)", "place": "PEA · Oshinei", "prov": "อุดรธานี", "dist": "เมืองอุดรธานี", "m": "tv5180", "q": 1, "s": "done", "lat": 17.407, "lon": 102.793, "ex": 1, "x": 3955, "y": 2352, "ph": ["s23-1.webp", "s23-2.webp"]}, {"n": 24, "name": "กรีนไลฟ์ สกลนคร", "place": "กรีนไลฟ์", "prov": "สกลนคร", "dist": "", "m": "tv5180", "q": 1, "s": "wip", "lat": 17.16, "lon": 104.15, "ex": 0, "x": 4917, "y": 2511, "ph": []}, {"n": 25, "name": "ทับสะแก ดีบีดูบัส", "place": "Elexa · Khraw Chaw Mong", "prov": "ประจวบคีรีขันธ์", "dist": "ทับสะแก", "m": "tv5180", "q": 2, "s": "done", "lat": 11.5273302, "lon": 99.6207081, "ex": 1, "x": 1732, "y": 6687, "ph": []}, {"n": 26, "name": "ทับสะแก ซีบีริชเทรดดิ้ง", "place": "ทับสะแก", "prov": "ประจวบคีรีขันธ์", "dist": "ทับสะแก", "m": "tv5180", "q": 2, "s": "wip", "lat": 11.5, "lon": 99.58, "ex": 0, "x": 1703, "y": 6708, "ph": []}, {"n": 27, "name": "PEA ตะพานหิน", "place": "PEA Volta · S.Siri Home Express", "prov": "พิจิตร", "dist": "ตะพานหิน", "m": "tv5180", "q": 1, "s": "done", "lat": 16.216, "lon": 100.421, "ex": 1, "x": 2290, "y": 3248, "ph": ["s27-1.webp", "s27-2.webp"]}, {"n": 28, "name": "PS Auto Car", "place": "Elexa · PS Autocar", "prov": "สมุทรปราการ", "dist": "พระสมุทรเจดีย์", "m": "tv5120", "q": 2, "s": "done", "lat": 13.591898, "lon": 100.5213502, "ex": 1, "x": 2375, "y": 5172, "ph": ["s28-1.webp", "s28-2.webp"]}, {"n": 29, "name": "Aeon ศรีราชา", "place": "Aeon ศรีราชา", "prov": "ชลบุรี", "dist": "ศรีราชา", "m": "tv5180", "q": 2, "s": "done", "lat": 13.17, "lon": 100.93, "ex": 0, "x": 2670, "y": 5479, "ph": ["s29-1.webp", "s29-2.webp"]}, {"n": 30, "name": "PEA แยกโพธิ์ไทรงาม", "place": "PEA · Pho Sai Ngam", "prov": "พิจิตร", "dist": "บึงนาราง", "m": "tv5240", "q": 1, "s": "done", "lat": 16.122339, "lon": 100.12598, "ex": 1, "x": 2082, "y": 3318, "ph": ["s30-1.webp", "s30-2.webp"]}, {"n": 31, "name": "PEA Shell 418 ยะลา", "place": "Shell 418", "prov": "ยะลา", "dist": "เมืองยะลา", "m": "tv5180", "q": 1, "s": "done", "lat": 6.54, "lon": 101.28, "ex": 0, "x": 2955, "y": 10338, "ph": ["s31-1.webp", "s31-2.webp"]}, {"n": 32, "name": "T-Space หาดใหญ่", "place": "T-Space", "prov": "สงขลา", "dist": "หาดใหญ่", "m": "tv5120", "q": 1, "s": "done", "lat": 7.01, "lon": 100.47, "ex": 0, "x": 2360, "y": 9996, "ph": []}, {"n": 33, "name": "บ้านดุง (เครื่องที่ 1)", "place": "PEA · Ban Dung Y.S.R56 DC1", "prov": "อุดรธานี", "dist": "บ้านดุง", "m": "tv5180", "q": 1, "s": "done", "lat": 17.7, "lon": 103.259, "ex": 1, "x": 4279, "y": 2130, "ph": []}, {"n": 34, "name": "บ้านดุง วาย.เอส.อาร์.56 (เครื่องที่ 2)", "place": "PEA · Ban Dung Y.S.R56 DC2", "prov": "อุดรธานี", "dist": "บ้านดุง", "m": "tv5180", "q": 1, "s": "done", "lat": 17.7, "lon": 103.259, "ex": 1, "x": 4279, "y": 2130, "ph": ["s34-1.webp", "s34-2.webp"]}, {"n": 35, "name": "PEA อนันต์น้ำแข็งหลอด", "place": "PEA · Green&Grow EV Cafe", "prov": "สงขลา", "dist": "ระโนด", "m": "tv5180", "q": 1, "s": "done", "lat": 7.710848, "lon": 100.371536, "ex": 1, "x": 2286, "y": 9482, "ph": ["s35-1.webp", "s35-2.webp"]}, {"n": 36, "name": "ลุงผัน กฟผ.", "place": "ลุงผัน", "prov": "สงขลา", "dist": "", "m": "tv5120", "q": 1, "s": "done", "lat": 7.19, "lon": 100.59, "ex": 0, "x": 2447, "y": 9864, "ph": ["s36-1.webp"]}, {"n": 37, "name": "PEA ปลัดนก สทิงพระ", "place": "PEA · Sathing Phra", "prov": "สงขลา", "dist": "สทิงพระ", "m": "tv5120", "q": 1, "s": "done", "lat": 7.526882, "lon": 100.423054, "ex": 1, "x": 2324, "y": 9617, "ph": ["s37-1.webp", "s37-2.webp"]}, {"n": 38, "name": "สากเหล็ก กรีนชาร์จ", "place": "หจก.กรีนชาร์จ", "prov": "พิจิตร", "dist": "สากเหล็ก", "m": "tv5240", "q": 2, "s": "done", "lat": 16.5, "lon": 100.51, "ex": 0, "x": 2352, "y": 3040, "ph": ["s38-1.webp", "s38-2.webp"]}, {"n": 39, "name": "บจก.ออร่า อุตรดิตถ์", "place": "Elexa · Nam Ang Uttaradit", "prov": "อุตรดิตถ์", "dist": "ตรอน", "m": "tv5240", "q": 1, "s": "done", "lat": 17.4414896, "lon": 100.2039477, "ex": 1, "x": 2131, "y": 2351, "ph": ["s39-1.webp"]}, {"n": 40, "name": "PEA พรานกระต่าย", "place": "PEA · Phran Kratai", "prov": "กำแพงเพชร", "dist": "พรานกระต่าย", "m": "tv5180", "q": 1, "s": "done", "lat": 16.659, "lon": 99.584, "ex": 1, "x": 1696, "y": 2926, "ph": ["s40-1.webp"]}, {"n": 41, "name": "PEA โรงแรมหล่มสัก", "place": "PEA · Lom Sak Phetchabun", "prov": "เพชรบูรณ์", "dist": "หล่มสัก", "m": "tv5180", "q": 1, "s": "done", "lat": 16.7831125, "lon": 101.2409219, "ex": 1, "x": 2867, "y": 2827, "ph": []}, {"n": 42, "name": "PEA Shell ท่าแพ", "place": "Shell ท่าแพ", "prov": "สตูล", "dist": "ท่าแพ", "m": "tv5120", "q": 1, "s": "wip", "lat": 6.79, "lon": 99.97, "ex": 0, "x": 1994, "y": 10158, "ph": []}, {"n": 43, "name": "PEA ร้านพิมพ์ใจ", "place": "PEA · Pimjai Coffee & Bakery", "prov": "นราธิวาส", "dist": "เมืองนราธิวาส", "m": "tv5120", "q": 1, "s": "done", "lat": 6.465278, "lon": 101.783501, "ex": 1, "x": 3324, "y": 10391, "ph": ["s43-1.webp", "s43-2.webp"]}, {"n": 44, "name": "ท่าข้าววังทรายพูน", "place": "PEA · Wang Sai Phun DC1–DC2", "prov": "พิจิตร", "dist": "วังทรายพูน", "m": "tv5240", "q": 2, "s": "done", "lat": 16.43577, "lon": 100.509521, "ex": 1, "x": 2352, "y": 3087, "ph": ["s44-1.webp", "s44-2.webp"]}, {"n": 45, "name": "PEA เขาดิน เขาพนม", "place": "PSL GO EV เขาพนม", "prov": "กระบี่", "dist": "เขาพนม", "m": "tv5180", "q": 1, "s": "done", "lat": 8.27, "lon": 99.04, "ex": 0, "x": 1313, "y": 9074, "ph": ["s45-1.webp", "s45-2.webp"]}, {"n": 46, "name": "PEA ไร่ส้ม", "place": "ไร่ส้ม", "prov": "เพชรบูรณ์", "dist": "", "m": "tv5120", "q": 1, "s": "done", "lat": 16.42, "lon": 101.16, "ex": 0, "x": 2812, "y": 3094, "ph": ["s46-1.webp", "s46-2.webp"]}, {"n": 47, "name": "EV Hub Solution ขอนแก่น", "place": "บ.อีวีฮับโซลูชั่น", "prov": "ขอนแก่น", "dist": "", "m": "tv5180", "q": 1, "s": "wip", "lat": 16.44, "lon": 102.83, "ex": 0, "x": 3995, "y": 3062, "ph": []}, {"n": 48, "name": "PEA บันนังสตา", "place": "บันนังสตา", "prov": "ยะลา", "dist": "บันนังสตา", "m": "tv5120", "q": 1, "s": "wip", "lat": 6.26, "lon": 101.25, "ex": 0, "x": 2934, "y": 10543, "ph": []}, {"n": 49, "name": "ร้านอาหารไทย พัทลุง", "place": "ร้านอาหารไทย", "prov": "พัทลุง", "dist": "", "m": "tv5180", "q": 1, "s": "done", "lat": 7.62, "lon": 100.08, "ex": 0, "x": 2073, "y": 9550, "ph": ["s49-1.webp"]}, {"n": 50, "name": "PEA ภูผาม่าน", "place": "ภูผาม่าน", "prov": "ขอนแก่น", "dist": "ภูผาม่าน", "m": "tv5120", "q": 1, "s": "wip", "lat": 16.66, "lon": 101.9, "ex": 0, "x": 3334, "y": 2911, "ph": []}, {"n": 51, "name": "S.S. Charger หทัยราษฎร์ 37", "place": "สถานี S.S. Charger", "prov": "กรุงเทพฯ", "dist": "คลองสามวา", "m": "tv5120", "q": 2, "s": "wip", "lat": 13.89, "lon": 100.7, "ex": 0, "x": 2501, "y": 4952, "ph": []}, {"n": 52, "name": "หนองไผ่ ช้างการไฟฟ้า", "place": "สถานีหนองไผ่", "prov": "เพชรบูรณ์", "dist": "หนองไผ่", "m": "tv5240", "q": 2, "s": "wip", "lat": 16.0, "lon": 101.07, "ex": 0, "x": 2752, "y": 3403, "ph": []}, {"n": 53, "name": "ตะกั่วป่า", "place": "Elexa · Takua Pa Metal Sheet Station", "prov": "พังงา", "dist": "ตะกั่วป่า", "m": "hyp180", "q": 1, "s": "done", "lat": 8.853323, "lon": 98.30888, "ex": 1, "x": 780, "y": 8647, "ph": ["s53-1.webp", "s53-2.webp"]}, {"n": 101, "name": "Caltex นภศรี อุดร", "place": "Elexa · Caltex Nopasri", "prov": "อุดรธานี", "dist": "เมืองอุดรธานี", "m": "tv5150", "q": 1, "s": "done", "lat": 17.397685, "lon": 102.796411, "ex": 1, "x": 3958, "y": 2359, "ph": []}, {"n": 102, "name": "โคกสุวรรณ มุกดาหาร", "place": "Elexa · Khok Suwan DC01–DC02", "prov": "มุกดาหาร", "dist": "เมืองมุกดาหาร", "m": "tv5180", "q": 2, "s": "done", "lat": 16.575929, "lon": 104.720643, "ex": 1, "x": 5334, "y": 2930, "ph": []}, {"n": 103, "name": "บางจาก ด่านขุนทด", "place": "PEA · Bangchak Dan Khun Thot 01–02", "prov": "นครราชสีมา", "dist": "ด่านขุนทด", "m": "tv5180", "q": 2, "s": "done", "lat": 15.286, "lon": 101.801972, "ex": 1, "x": 3278, "y": 3921, "ph": []}, {"n": 104, "name": "Shiba Inu หนองเสม็ด ตราด", "place": "PEA · Shiba Inu Nong Samet", "prov": "ตราด", "dist": "เมืองตราด", "m": "tv5180", "q": 1, "s": "done", "lat": 12.243, "lon": 102.515, "ex": 1, "x": 3819, "y": 6147, "ph": []}]};
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=n=>n.toLocaleString("en-US");
+const KVA=[50,100,160,250,315,400,500,630,750,800,1000,1250,1500,2000,2500,3000];
+const trFor=kw=>KVA.find(v=>kw<=v*.8)||Math.ceil(kw/.8/500)*500;
+
+/* ---------- models (Thailand EVSE datasheet 11/2026) ---------- */
+const CERT="CE, CB, NBTC, PTEC";
+const MODELS=[
+ {k:"venus30",name:"Venus V3",kw:30,fam:"aio",guns:1,bays:1,tag:"DC Wallbox",img:["p-venus","p-venus-a"],code:"DC0300EN004602",units:[1,2,4],
+  pitch:"DC ขนาดเล็ก ติดผนังหรือเสา เหมาะกับคอนโด ออฟฟิศ ร้านกาแฟ",
+  spec:[["กำลังไฟออก","30 kW · 100 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","1 หัว"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 63 A"],["ประสิทธิภาพ","สูงสุด 95%"],["หน้าจอ","ทัชสกรีน 7 นิ้ว · RFID"],["สายชาร์จ","5 m"],["ตัวเครื่อง","IP55 · กันกัดกร่อน C3-M · ระบายความร้อนด้วยลม"],["ขนาด (W×D×H)","700×257×500 mm · เสา 200×100×1431 mm · ~77 kg"],["Backend","OCPP 1.6J"],["มาตรฐาน",CERT]]},
+ {k:"jv460",name:"Jupiter V4 60",kw:60,fam:"aio",guns:2,tag:"All-in-One",img:["p-jupiter-v4"],code:"DC0600EN016312",units:[1,2,3,4],
+  pitch:"ตู้ 60 kW 2 หัว สำหรับจุดจอดนาน เช่น โรงแรม ห้าง ลานจอด",
+  spec:[["กำลังไฟออก","60 kW · 200 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","2 หัว"],["ไฟเข้า","400 Vac ±10% 3/N/PE · 100 A"],["ประสิทธิภาพ","สูงสุด 95%"],["หน้าจอ","ทัชสกรีน 7 นิ้ว"],["สายชาร์จ","5 m · มีระบบจัดการสาย (CMS)"],["ตัวเครื่อง","IP55 · C3-M · ระบายความร้อนด้วยลม"],["น้ำหนัก","~205 kg (ไม่รวมโมดูลกำลัง) · โมดูลละ ~15 kg"],["Backend","OCPP 1.6J"],["มาตรฐาน",CERT]]},
+ {k:"jv5120",name:"Jupiter V5 120",kw:120,fam:"aio",guns:2,tag:"All-in-One · Power Link",img:["p-jupiter-v5","p-jupiter-v5-a"],code:"DC1200EN245012",units:[1,2,3,4,5],
+  pitch:"120 kW รองรับ Power Link รวมกำลังข้ามตู้ ให้หัวเดียวรับกำลังได้มากขึ้น",
+  spec:[["กำลังไฟออก","120 kW · 300 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","2 หัว"],["Power Aggregation","รองรับ (Power Link)"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 185 A"],["ประสิทธิภาพ","สูงสุด 95%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["สายชาร์จ","5 m (เลือกความยาวอื่นได้) · CMS optional"],["ตัวเครื่อง","IP55 · C3-M · ระบายความร้อนด้วยลม"],["ขนาด (W×D×H)","760×600×1600 mm · ~300 kg ไม่รวมโมดูล"],["Backend","OCPP 1.6J"],["มาตรฐาน",CERT]]},
+ {k:"tv5120",name:"Titan V5 120",kw:120,fam:"aio",guns:2,tag:"All-in-One",img:["p-titan-v5","p-titan-v5-a"],code:"DC1200EN195012",units:[1,2,3,4,5],
+  pitch:"รุ่นยอดนิยม 120 kW สาย Swing-arm ไม่ลากพื้น เหมาะกับปั๊มและร้านค้า",
+  spec:[["กำลังไฟออก","120 kW · 300 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","CCS2 + CCS2"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 185 A"],["ประสิทธิภาพ","สูงสุด 95.5%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["ยืนยันตัวตน","RFID, QR code, App (optional), Free charging, MAC"],["สายชาร์จ","5 m ระยะใช้งาน ~3.8 m ไม่แตะพื้น · Swing Arm optional"],["ตัวเครื่อง","IP55 / IK10 · C3-M · −30 ถึง +50 °C"],["ขนาด (W×D×H)","750×720×1790 mm · ~281 kg ไม่รวมโมดูล"],["Backend","OCPP 1.6J / 2.0.1 · ISO 15118"],["มาตรฐาน",CERT]]},
+ {k:"tv5180",name:"Titan V5 180",kw:180,fam:"aio",guns:2,tag:"All-in-One",img:["p-titan-v5","p-titan-v5-a"],code:"DC1800EN195012",units:[1,2,3,4,5],
+  pitch:"180 kW 2 หัว รุ่นที่ EV Cafe ติดตั้งมากที่สุด สำหรับสถานีริมทาง",
+  spec:[["กำลังไฟออก","180 kW · 300 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","CCS2 + CCS2"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 277 A"],["ประสิทธิภาพ","สูงสุด 95.5%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["ยืนยันตัวตน","RFID, QR code, App (optional), Free charging, MAC"],["สายชาร์จ","5 m ระยะใช้งาน ~3.8 m ไม่แตะพื้น · Swing Arm"],["ตัวเครื่อง","IP55 / IK10 · C3-M · −30 ถึง +50 °C"],["ขนาด (W×D×H)","750×720×1790 mm · ~375 kg"],["Backend","OCPP 1.6J / 2.0.1 · ISO 15118"],["มาตรฐาน",CERT]]},
+ {k:"tv5240",name:"Titan V5 240",kw:240,fam:"aio",guns:2,tag:"All-in-One",img:["p-titan-v5","p-titan-v5-a"],code:"DC2400EN236012",units:[1,2,3,4,5],
+  pitch:"240 kW ในตู้เดียว ชาร์จรถ 800V ได้เต็มสปีด",
+  spec:[["กำลังไฟออก","240 kW · 300 A rated"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","CCS2 + CCS2"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 361 A"],["ประสิทธิภาพ","สูงสุด 96.5%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["สายชาร์จ","5 m ระยะใช้งาน ~3.8 m ไม่แตะพื้น"],["ตัวเครื่อง","IP55 / IK10 · C3-M"],["ขนาด (W×D×H)","750×720×1790 mm · ~418 kg"],["Backend","OCPP 1.6J"],["มาตรฐาน",CERT]]},
+ {k:"tv5pro",name:"Titan V5 Pro 240",kw:240,fam:"aio",guns:2,tag:"All-in-One · 500 A",img:["p-titan-v5-a","p-titan-v5"],code:"DC2400EN236732",units:[1,2,3,4,5],
+  pitch:"240 kW ประสิทธิภาพ 97% กระแสสูงสุด 500 A สำหรับรถที่รับกระแสสูง",
+  spec:[["กำลังไฟออก","240 kW · 300 A rated (500 A max)"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","CCS2 + CCS2"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 361 A"],["ประสิทธิภาพ","สูงสุด 97%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["สายชาร์จ","5 m ระยะใช้งาน ~3.8 m ไม่แตะพื้น"],["ตัวเครื่อง","IP55 / IK10 · C3-M"],["ขนาด (W×D×H)","750×720×1790 mm · ~418 kg"],["Backend","OCPP 1.6J"],["มาตรฐาน",CERT]]},
+ {k:"tv4320",name:"Titan V4 320",kw:320,fam:"aio",guns:2,tag:"All-in-One · 500 A",img:["p-titan-v4","p-titan-v4-a"],code:"DC3200EN146112",units:[1,2,3,4],
+  pitch:"320 kW ตู้เดียว ไฟ LED ด้านบน ระบบจัดการสาย สำหรับสถานีหลัก",
+  spec:[["กำลังไฟออก","320 kW · 300 A rated (500 A max)"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","2 หัว"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 481 A"],["ประสิทธิภาพ","สูงสุด 97%"],["หน้าจอ","ทัชสกรีน 10.4 นิ้ว"],["สายชาร์จ","5 m ระยะใช้งาน ~3 m ไม่แตะพื้น · CMS"],["ตัวเครื่อง","IP55 · C3-M"],["น้ำหนัก","~410 kg ไม่รวมโมดูล · CMS ~36 kg · ไฟ LED ~15.5 kg"],["Backend","OCPP"],["มาตรฐาน",CERT]]},
+ {k:"nova480v4",name:"Nova V4 480",kw:480,fam:"cab",cap:12,disp:"hydruspro",tag:"Split · Power Cabinet",img:["p-nova-v4","p-nova-v4-a"],code:"DC4800EN001006",d:[2,3,4,6],
+  pitch:"ตู้ไฟกลาง 480 kW แบ่งกำลังอัตโนมัติ (Power pool) ต่อ Dispenser ได้สูงสุด 12 หัว",
+  spec:[["กำลังไฟออกรวม","480 kW · 1600 A max"],["แรงดันออก","150–1000 Vdc"],["จำนวนหัวที่รองรับ","สูงสุด 12 หัวต่อตู้"],["ไฟเข้า","400 Vac ±15% 3/N/PE · 737 A"],["ประสิทธิภาพ","สูงสุด 95%"],["ตัวตู้","IP55 · ระบายความร้อนด้วยลม"],["ขนาด (W×D×H)","1503×1220×2149.5 mm"],["มาตรฐาน",CERT]]},
+ {k:"nova720v4",name:"Nova V4 720",kw:720,fam:"cab",cap:12,disp:"hydruspro",tag:"Split · Power Cabinet",img:["p-nova-v4-a","p-nova-v4"],code:"DC7200EN002006",d:[2,3,4,6],
+  pitch:"ตู้ไฟกลาง 720 kW ประสิทธิภาพ 97% สำหรับสถานีขนาดใหญ่หลายช่องจอด",
+  spec:[["กำลังไฟออกรวม","720 kW · 2400 A max"],["แรงดันออก","150–1000 Vdc"],["จำนวนหัวที่รองรับ","สูงสุด 12 หัวต่อตู้"],["ไฟเข้า","400 Vac ±15% 3/N/PE"],["ประสิทธิภาพ","สูงสุด 97%"],["ตัวตู้","IP55 · ระบายความร้อนด้วยลม"],["ขนาด (W×D×H)","1503×1220×2149.5 mm"],["มาตรฐาน",CERT]]},
+ {k:"nova480v5",name:"Nova V5 480",kw:480,fam:"cab",cap:12,disp:"hydruspro",tag:"Split · Power Cabinet",img:["p-nova-v5"],code:"DC4800EN020006",d:[2,3,4,6],
+  pitch:"ตู้ไฟกลาง 480 kW รุ่นใหม่ ฐานเล็ก วางในลานไฟได้ง่าย",
+  spec:[["กำลังไฟออกรวม","480 kW · 1600 A max"],["แรงดันออก","150–1000 Vdc"],["จำนวนหัวที่รองรับ","สูงสุด 12 หัวต่อตู้"],["ไฟเข้า","400 Vac ±15% 3/N/PE"],["ประสิทธิภาพ","สูงสุด 96%"],["ตัวตู้","IP55 · ระบายความร้อนด้วยลม"],["ขนาด (W×D×H)","1050×1150×1750 mm · ~660 kg"],["มาตรฐาน",CERT]]},
+ {k:"nereus720",name:"Nereus 720 LC",kw:720,fam:"cab",cap:18,disp:"hydrusplus",tag:"Split · Liquid-cooled",img:["p-nereus"],code:"DC7200EN012006",d:[3,6,9],
+  pitch:"ตู้ไฟกลางระบายความร้อนด้วยของเหลว 720 kW เพิ่มกำลังทีละ 40 kW รองรับ 18 หัว",
+  spec:[["กำลังไฟออกรวม","720 kW · 2400 A max"],["แรงดันออก","150–1000 Vdc"],["จำนวนหัวที่รองรับ","สูงสุด 18 หัวต่อตู้"],["โมดูลกำลัง","40 kW ต่อโมดูล · Hot-swappable"],["ไฟเข้า","400 Vac ±10% 3/N/PE"],["ประสิทธิภาพ","สูงสุด 96.5% (โมดูล 97%)"],["การระบายความร้อน","Liquid-cooling (ethylene glycol) ออกแบบสำรอง"],["ตัวตู้","IP55"],["ขนาด (W×D×H)","2000×950×2100 mm · ~1800 kg"],["มาตรฐาน",CERT]]},
+ {k:"hydruspro",name:"Hydrus Pro",kw:null,kwTxt:"600 A",fam:"disp",cab:"nova720v4",tag:"Dispenser · Natural-cooling",img:["p-hydrus-pro","p-hydrus-pro-a"],code:"DC8000EN003XY",d:[2,3,4,6],
+  pitch:"ตู้จ่ายสำหรับ Nova ระบายความร้อนแบบธรรมชาติ กระแสสูงสุด 600 A",
+  spec:[["กระแสออก","400 A rated (600 A max)"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","2 หัว"],["ระบบจัดการสาย","CMS · สาย 5 m"],["ตัวเครื่อง","IP55 · C3-M · Natural cooling"],["น้ำหนัก","~182 kg · CMS ~12 kg"],["ใช้คู่กับ","Nova V4 / Nova V5 Power Cabinet"],["มาตรฐาน",CERT]]},
+ {k:"hydrusplus",name:"Hydrus Plus",kw:null,kwTxt:"800 A",fam:"disp",cab:"nereus720",tag:"Dispenser · Liquid-cooling",img:["p-hydrus-plus","p-hydrus-plus-a"],code:"DCM016EN2469XY",d:[3,6,9],
+  pitch:"ตู้จ่ายสายระบายความร้อนด้วยของเหลว กระแสสูงสุด 800 A ใช้คู่ Nereus",
+  spec:[["กระแสออก","600 A rated (800 A max)"],["แรงดันออก","150–1000 Vdc"],["หัวชาร์จ","2 หัว"],["ระบบจัดการสาย","CMS · สาย 5 m"],["การระบายความร้อน","Liquid-cooled"],["ตัวเครื่อง","IP55 · C3-M"],["ขนาด (W×D×H)","500×450×1900 mm (ไม่รวม CMS)"],["ใช้คู่กับ","Nereus 720 LC"],["มาตรฐาน",CERT]]}
+];
+const MOD=Object.fromEntries(MODELS.map(m=>[m.k,m]));
+const EXTRA={nova720:"Nova V4 720 + Hydrus Pro ×6",tv5150:"Titan V5 150",hyp180:"Hyperion EN 180"};
+const MK={}; MODELS.forEach(m=>MK[m.k]={role:m.fam==="cab"?"cab":m.fam==="disp"?"disp":"point",name:m.name,bays:m.bays||2});
+const ARCH={aio:"All-in-One",split:"Split · Power pool"};
+
+/* scenarios */
+function scenarios(m){
+  if(m.fam==="aio") return m.units.map(u=>({id:m.k+"-"+u,m:m.k,u,bays:u*(m.guns),o:u*m.guns,st:u*m.kw,parts:[[m.k,u]],cfg:`${m.name} × ${u}`,arch:"aio",fam:"aio"}));
+  const cab=m.fam==="cab"?m:MOD[m.cab], dk=m.fam==="cab"?m.disp:m.k, dm=MOD[dk];
+  return m.d.map(n=>({id:m.k+"-"+n,m:m.k,u:n,bays:n*2,o:n*2,st:cab.kw,parts:[[cab.k,1],[dk,n]],cfg:`${cab.name} + ${dm.name} × ${n}`,arch:"split",fam:"pool",cab:cab.k,disp:dk}));
+}
+const optFor=s=>({n:s.id,parts:s.parts,tr:trFor(s.st),st:s.st,o:s.o,cfg:s.cfg,arch:s.arch,fam:s.fam});
+
+/* stations */
+const REG={"เหนือ":["พิจิตร","พิษณุโลก","อุตรดิตถ์","กำแพงเพชร","เพชรบูรณ์"],"อีสาน":["นครราชสีมา","อุดรธานี","สกลนคร","ขอนแก่น","มุกดาหาร"],"กลาง/ตะวันออก":["กรุงเทพฯ","ปทุมธานี","สมุทรปราการ","ชลบุรี","ตราด","กาญจนบุรี","ประจวบคีรีขันธ์"],"ใต้":["สงขลา","ยะลา","สตูล","นราธิวาส","กระบี่","พัทลุง","พังงา"]};
+const regionOf=p=>Object.keys(REG).find(r=>REG[r].includes(p))||"กลาง/ตะวันออก";
+const ST=MAP.st.map(s=>{
+  let sc=null;
+  if(MOD[s.m]&&MOD[s.m].fam==="aio") sc=scenarios(MOD[s.m]).find(x=>x.u===s.q)||null;
+  if(s.m==="nova720") sc=scenarios(MOD.nova720v4).find(x=>x.u===6);
+  if(s.m==="tv5150") sc={id:"tv5150-"+s.q,m:"tv5120",u:s.q,bays:s.q*2,o:s.q*2,st:150*s.q,parts:[["tv5120",s.q]],cfg:`Titan V5 150 × ${s.q}`,arch:"aio",fam:"aio"};
+  if(s.m==="hyp180") sc={id:"hyp180-"+s.q,m:"tv5180",u:s.q,bays:2,o:2,st:180,parts:[["tv5180",1]],cfg:"Hyperion EN 180 × 1",arch:"aio",fam:"aio"};
+  const mname=MOD[s.m]?MOD[s.m].name:EXTRA[s.m];
+  const label=s.m==="nova720"?"Nova V4 720 + Hydrus Pro ×6":`${mname} × ${s.q}`;
+  return {...s,sc,mname,label,reg:regionOf(s.prov),kw:sc?sc.st:0,bays:sc?sc.bays:s.q*2};
+});
+const refsFor=(m,scId)=>ST.filter(s=>{
+  if(MOD[m].fam==="aio") return s.m===m && (!scId||s.sc&&s.sc.id===scId);
+  return s.m==="nova720" && (m==="nova720v4"||m==="hydruspro") && (!scId||scId.endsWith("-6"));
+});
+const refCount=m=>refsFor(m).length;
+
+/* ---------- 3D ---------- */
+const G=(function(){
+  const M=MK;
+  const ok=!!(window.THREE&&THREE.WebGLRenderer&&THREE.OrbitControls);
+  let R,scene,cam,ctl,root,dashTex,dashMats=[],ledMats=[],anims=[],t0=0,builtFor=null,hostEl=null,dirL,curOpt=null,heroMode=false;
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const off={ok:false,mount(){},unmount(){}};
+  if(!ok) return off;
+  try{
+    R=new THREE.WebGLRenderer({antialias:true,alpha:true});
+    R.setClearColor(0x000000,0);
+    R.outputEncoding=THREE.sRGBEncoding; R.toneMapping=THREE.ACESFilmicToneMapping; R.toneMappingExposure=1.05;
+    R.shadowMap.enabled=true; R.shadowMap.type=THREE.PCFSoftShadowMap;
+    R.domElement.style.cssText="display:block;width:100%;height:100%;outline:none";
+  }catch(e){return off}
+  scene=new THREE.Scene();
+  cam=new THREE.PerspectiveCamera(36,1,.1,500);
+  ctl=new THREE.OrbitControls(cam,R.domElement);
+  ctl.enableDamping=true; ctl.dampingFactor=.07; ctl.enablePan=false; ctl.maxPolarAngle=1.42; ctl.minPolarAngle=.25;
+  ctl.autoRotate=!reduce; ctl.autoRotateSpeed=.55;
+  ctl.addEventListener("start",()=>{ctl.autoRotate=false});
+  scene.add(new THREE.HemisphereLight(0xdceef5,0x0b0f0d,.62));
+  dirL=new THREE.DirectionalLight(0xffffff,1.05); dirL.position.set(-20,36,24); dirL.castShadow=true;
+  const SM=innerWidth<760?1024:2048; dirL.shadow.mapSize.set(SM,SM); dirL.shadow.bias=-.0004; scene.add(dirL); scene.add(dirL.target);
+  const fill=new THREE.DirectionalLight(0x8cc8ee,.3); fill.position.set(30,12,-30); scene.add(fill);
+  const dc=document.createElement("canvas"); dc.width=128; dc.height=16; const dx=dc.getContext("2d");
+  const gr=dx.createLinearGradient(0,0,128,0); gr.addColorStop(0,"rgba(117,193,136,0)"); gr.addColorStop(.5,"rgba(200,255,215,1)"); gr.addColorStop(.62,"rgba(117,193,136,.95)"); gr.addColorStop(1,"rgba(117,193,136,0)");
+  dx.fillStyle="rgba(117,193,136,.2)"; dx.fillRect(0,0,128,16); dx.fillStyle=gr; dx.fillRect(0,0,128,16);
+  dashTex=new THREE.CanvasTexture(dc); dashTex.wrapS=dashTex.wrapT=THREE.RepeatWrapping;
+  const MC={}; const mat=(k,p)=>MC[k]||(MC[k]=new THREE.MeshStandardMaterial(p));
+  const X={
+    white:mat("white",{color:0xe6eae8,roughness:.42,metalness:.08}), silver:mat("silver",{color:0xc2c8cc,roughness:.32,metalness:.55}),
+    gray:mat("gray",{color:0x6f777c,roughness:.5,metalness:.35}), dark:mat("dark",{color:0x15181a,roughness:.55,metalness:.2}),
+    panel:mat("panel",{color:0x0b0d0e,roughness:.25,metalness:.3}), screen:mat("screen",{color:0x06202b,emissive:0x2aa6d8,emissiveIntensity:.9,roughness:.2}),
+    sgscreen:mat("sgscreen",{color:0x06142b,emissive:0x2f8cff,emissiveIntensity:1.1,roughness:.2}),
+    led:mat("led",{color:0x75c188,emissive:0x75c188,emissiveIntensity:2.2}), sgled:mat("sgled",{color:0x2f8cff,emissive:0x2f8cff,emissiveIntensity:2}),
+    cable:mat("cable",{color:0x0e0f10,roughness:.45,metalness:.1}), bay:mat("bay",{color:0x0c3f63,roughness:.95}),
+    line:mat("line",{color:0xdfe6e2,roughness:.8,emissive:0x222222}), pad:mat("pad",{color:0x2b302e,roughness:.95}), padL:mat("padL",{color:0x1b201e,roughness:.95}),
+    lot:mat("lot",{color:0x232927,roughness:1}),
+    tr:mat("tr",{color:0x5b6b62,roughness:.55,metalness:.45}), trfin:mat("trfin",{color:0x4a5750,roughness:.6,metalness:.4}),
+    canopy:mat("canopy",{color:0x1e2523,roughness:.5,metalness:.4}),
+    glass:new THREE.MeshStandardMaterial({color:0x9fd2ea,roughness:.1,metalness:.2,transparent:true,opacity:.14,depthWrite:false,side:THREE.DoubleSide}),
+    stripe:mat("stripe",{color:0x2b3f48,roughness:.6}), yellow:mat("yellow",{color:0xe8c11c,roughness:.6}),
+    carGlass:mat("cg",{color:0x0b1014,roughness:.12,metalness:.6}), tire:mat("tire",{color:0x0a0a0a,roughness:.9}),
+    head:mat("head",{color:0xffffff,emissive:0xdff6ff,emissiveIntensity:1.4})
+  };
+  ledMats=[X.led,X.sgled];
+  const CARC=[0xd8dcdf,0x2a3036,0x7d1d1d,0x2a4a78,0x6c777e,0xf2f2f2,0x1d3b30,0x9a9a8c].map((c,i)=>mat("car"+i,{color:c,roughness:.3,metalness:.55}));
+  function box(g,w,h,d,m,x,y,z,sh){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=sh!==false;o.receiveShadow=true;g.add(o);return o}
+  function tube(g,pts,r){const c=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(...p)));const o=new THREE.Mesh(new THREE.TubeGeometry(c,40,r||.028,6,false),X.cable);o.castShadow=true;g.add(o);return o}
+  function label(text,sub,col){
+    const c=document.createElement("canvas"); c.width=640; c.height=sub?170:110; const x=c.getContext("2d");
+    x.fillStyle="rgba(6,10,12,.88)"; x.strokeStyle=col||"#75c188"; x.lineWidth=4;
+    const r=22,w=c.width-8,h=c.height-8; x.beginPath(); x.moveTo(4+r,4); x.arcTo(4+w,4,4+w,4+h,r); x.arcTo(4+w,4+h,4,4+h,r); x.arcTo(4,4+h,4,4,r); x.arcTo(4,4,4+w,4,r); x.closePath(); x.fill(); x.stroke();
+    x.fillStyle="#eef3f0"; x.font="600 54px 'Bai Jamjuree','Prompt',sans-serif"; x.textAlign="center"; x.textBaseline="middle";
+    x.fillText(text,c.width/2,sub?62:c.height/2+2);
+    if(sub){x.fillStyle=col||"#75c188"; x.font="500 38px 'Prompt',sans-serif"; x.fillText(sub,c.width/2,124)}
+    const t=new THREE.CanvasTexture(c); t.encoding=THREE.sRGBEncoding; t.anisotropy=4;
+    const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));
+    const k=.0105; s.scale.set(c.width*k,c.height*k,1); s.renderOrder=10; return s;
+  }
+  function holsterCables(g,w,d,h,armY,armHalf){
+    [-1,1].forEach(s=>{ box(g,.1,.16,.09,X.dark,s*.14,.98,d/2+.05);
+      if(armY) tube(g,[[s*armHalf,armY-.05,0.02],[s*(armHalf+.12),armY-.6,.12],[s*(armHalf+.1),.5,.32],[s*(armHalf*.6),.22,.62],[s*.3,.45,.6],[s*.16,.92,d/2+.1]]);
+      else tube(g,[[s*.16,.92,d/2+.1],[s*.28,.5,d/2+.45],[s*(w/2+.18),.18,d/2+.2],[s*(w/2+.12),.6,0],[s*(w/2+.02),1.15,-.05]]); });
+  }
+  function mTitan(pro){
+    const g=new THREE.Group(),w=.75,h=1.79,d=.72;
+    box(g,w+.04,.1,d+.04,X.gray,0,.05,0); box(g,w,h-.1,d,X.white,0,h/2+.05,0);
+    if(pro){box(g,.07,h-.1,d+.01,X.gray,w/2-.03,h/2+.05,0);box(g,.07,h-.1,d+.01,X.gray,-w/2+.03,h/2+.05,0)}
+    box(g,.52,1.0,.02,X.panel,0,1.18,d/2+.01,false); box(g,.22,.17,.012,X.screen,0,1.34,d/2+.025,false);
+    box(g,.13,.016,.012,X.led,-.13,1.62,d/2+.025,false); box(g,.13,.016,.012,X.led,.13,1.62,d/2+.025,false);
+    box(g,.12,.34,.12,X.gray,0,h+.17,0); box(g,1.95,.1,.18,X.gray,0,h+.36,0);
+    box(g,.08,.06,.05,X.yellow,-.82,h+.36,.1,false); box(g,.08,.06,.05,X.yellow,.82,h+.36,.1,false);
+    holsterCables(g,w,d,h,h+.32,.95); return g;
+  }
+  function mJupiter(){ // with cable-management arm
+    const g=new THREE.Group(),w=.75,h=1.6,d=.6;
+    box(g,w+.04,.1,d+.04,X.gray,0,.05,0); box(g,w,h-.1,d,X.white,0,h/2+.05,0);
+    box(g,.5,.95,.02,X.panel,0,1.05,d/2+.01,false); box(g,.22,.17,.012,X.screen,0,1.22,d/2+.025,false);
+    box(g,.13,.016,.012,X.led,-.12,1.48,d/2+.025,false); box(g,.13,.016,.012,X.led,.12,1.48,d/2+.025,false);
+    box(g,.12,.3,.12,X.gray,0,h+.15,0); box(g,1.8,.1,.18,X.gray,0,h+.32,0);
+    box(g,.08,.06,.05,X.yellow,-.76,h+.32,.1,false); box(g,.08,.06,.05,X.yellow,.76,h+.32,.1,false);
+    holsterCables(g,w,d,h,h+.28,.88); return g;
+  }
+  function mHydrus(){
+    const g=new THREE.Group(),w=.5,h=1.7,d=.25;
+    box(g,w,h,d,X.white,0,h/2,0); box(g,w+.01,.55,d+.01,X.stripe,0,.28,0);
+    box(g,.32,.6,.02,X.panel,0,1.12,d/2+.01,false); box(g,.16,.13,.012,X.screen,0,1.25,d/2+.025,false);
+    box(g,.1,.016,.012,X.led,0,1.48,d/2+.025,false);
+    box(g,.08,.3,.08,X.gray,0,h+.15,0); box(g,1.3,.08,.12,X.gray,0,h+.32,0);
+    [-1,1].forEach(s=>{box(g,.08,.14,.08,X.dark,s*.1,.92,d/2+.05); tube(g,[[s*.62,h+.28,0],[s*.72,h-.4,.08],[s*.68,.45,.3],[s*.38,.2,.55],[s*.2,.5,.42],[s*.11,.9,d/2+.1]])});
+    return g;
+  }
+  function mIDC(){
+    const g=new THREE.Group(),w=.85,h=2.3,d=.95;
+    box(g,w+.04,.14,d+.04,X.dark,0,.07,0); box(g,w,h-.24,d,X.silver,0,h/2-.03,0);
+    box(g,w+.06,.12,d+.06,X.dark,0,h-.05,0); box(g,w*.8,.02,.01,X.sgled,0,h-.05,d/2+.035,false);
+    box(g,.02,1.5,d*.82,X.dark,w/2+.011,1.1,0,false);
+    box(g,.5,.16,.02,X.panel,0,1.32,d/2+.01,false); box(g,.24,.11,.012,X.sgscreen,0,1.32,d/2+.025,false);
+    box(g,.22,.06,.5,X.dark,w/2+.1,h-.35,0);
+    [-1,1].forEach(s=>{box(g,.09,.15,.09,X.dark,s*(w/2+.06),.95,d/2-.15); tube(g,[[w/2+.2,h-.38,0],[w/2+.35,1.3,.25],[s*(w/2+.25),.3,.55],[s*(w/2+.1),.6,d/2],[s*(w/2+.06),.92,d/2-.12]])});
+    return g;
+  }
+  function mSGdisp(){
+    const g=new THREE.Group(),w=.43,h=1.8,d=.33;
+    box(g,w,.12,d,X.dark,0,.06,0); box(g,w,h-.12,d,X.silver,0,h/2+.06,0);
+    box(g,w+.01,h*.55,.04,X.dark,0,h*.6,-d/2,false);
+    box(g,.3,.36,.02,X.panel,0,1.25,d/2+.01,false); box(g,.22,.17,.012,X.sgscreen,0,1.28,d/2+.025,false);
+    box(g,.3,.012,.012,X.sgled,0,1.7,d/2+.02,false); box(g,.1,.1,.34,X.dark,0,h+.05,-.05);
+    [-1,1].forEach(s=>{box(g,.08,.14,.08,X.dark,s*(w/2+.05),.95,0); tube(g,[[0,h+.05,.12],[s*.25,1.4,.4],[s*.4,.3,.55],[s*.32,.6,.15],[s*(w/2+.05),.92,0]])});
+    return g;
+  }
+  function mNova(big){
+    const g=new THREE.Group(),w=big?1.5:1.05,h=big?2.15:1.75,d=big?1.22:1.15;
+    box(g,w+.04,.1,d+.04,X.gray,0,.05,0); box(g,w,h-.1,d,X.white,0,h/2+.05,0);
+    if(big){ box(g,.5,.55,.012,X.dark,-.33,.55,d/2+.01,false); box(g,.5,.55,.012,X.dark,.33,.55,d/2+.01,false); box(g,.01,h-.3,.012,X.gray,0,h/2,d/2+.01,false);}
+    else box(g,.62,.5,.012,X.dark,0,.5,d/2+.01,false);
+    box(g,.012,.16,.012,X.led,-w/2+.18,1.3,d/2+.015,false); return g;
+  }
+  function mTR(){
+    const g=new THREE.Group();
+    box(g,3.0,.2,2.4,X.pad,0,.1,0); box(g,1.9,1.6,1.25,X.tr,0,1.0,0);
+    for(let i=0;i<9;i++){const x=-.8+i*.2; box(g,.04,1.2,.3,X.trfin,x,.95,.78); box(g,.04,1.2,.3,X.trfin,x,.95,-.78)}
+    for(let i=0;i<3;i++){const c=new THREE.Mesh(new THREE.CylinderGeometry(.07,.09,.45,10),X.gray); c.position.set(-.5+i*.5,2.02,0); c.castShadow=true; g.add(c)}
+    box(g,1.95,.06,1.3,X.yellow,0,1.83,0,false); return g;
+  }
+  function mCar(ci){
+    const g=new THREE.Group(), body=CARC[ci%CARC.length];
+    box(g,1.86,.5,4.5,body,0,.55,0); box(g,1.8,.22,4.3,X.dark,0,.3,0);
+    box(g,1.62,.52,2.5,X.carGlass,0,1.05,.25); box(g,1.64,.06,2.3,body,0,1.33,.3);
+    [[.88,1.45],[-.88,1.45],[.88,-1.45],[-.88,-1.45]].forEach(([x,z])=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.24,14),X.tire); w.rotation.z=Math.PI/2; w.position.set(x,.34,z); w.castShadow=true; g.add(w)});
+    box(g,.4,.06,.03,X.head,.6,.62,-2.26,false); box(g,.4,.06,.03,X.head,-.6,.62,-2.26,false); return g;
+  }
+  function mVenus(){const g=new THREE.Group();box(g,.5,.05,.3,X.gray,0,.03,0);box(g,.2,1.2,.1,X.white,0,.6,0);box(g,.7,.5,.26,X.white,0,1.45,0);box(g,.14,.5,.012,X.panel,-.12,1.45,.14,false);box(g,.08,.012,.012,X.led,-.12,1.25,.15,false);box(g,.1,.16,.1,X.dark,.06,1.0,.1);tube(g,[[.2,1.2,.05],[.32,.7,.2],[.3,.25,.3],[.12,.5,.2],[.06,.95,.12]]);return g}
+  const MAKE={venus30:()=>mVenus(),jv460:()=>mJupiter(),jv5120:()=>mJupiter(),tv5120:()=>mTitan(false),tv5180:()=>mTitan(false),tv5240:()=>mTitan(false),tv5pro:()=>mTitan(true),tv4320:()=>mTitan(true),hydruspro:()=>mHydrus(),hydrusplus:()=>mHydrus(),nova480v5:()=>mNova(false),nova480v4:()=>mNova(true),nova720v4:()=>mNova(true),nereus720:()=>mNova(true)};
+  function ribbon(pts,wd,op){
+    const pos=[],uv=[],idx=[]; let u=0;
+    for(let i=0;i<pts.length-1;i++){
+      const a=pts[i],b=pts[i+1]; const ddx=b[0]-a[0],dz=b[1]-a[1],L=Math.hypot(ddx,dz); if(L<1e-4) continue;
+      const nx=-dz/L*wd/2,nz=ddx/L*wd/2, ex=ddx/L*wd/2, ez=dz/L*wd/2; const base=pos.length/3;
+      const ax=a[0]-ex,az=a[1]-ez,bx=b[0]+ex,bz=b[1]+ez;
+      pos.push(ax+nx,0,az+nz, ax-nx,0,az-nz, bx+nx,0,bz+nz, bx-nx,0,bz-nz);
+      uv.push(u*.55,0,u*.55,1,(u+L)*.55,0,(u+L)*.55,1); u+=L; idx.push(base,base+1,base+2,base+1,base+3,base+2);
+    }
+    const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.Float32BufferAttribute(pos,3)); geo.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2)); geo.setIndex(idx);
+    const m=new THREE.MeshBasicMaterial({map:dashTex,color:0xffffff,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+    m.userData.op=op||1; dashMats.push(m);
+    const o=new THREE.Mesh(geo,m); o.position.y=.03; o.renderOrder=2; return o;
+  }
+  function disposeRoot(){
+    if(!root) return;
+    root.traverse(o=>{ if(o.geometry) o.geometry.dispose(); if(o.material&&(o.isSprite||dashMats.includes(o.material))){ if(o.material.map&&o.material.map!==dashTex) o.material.map.dispose(); o.material.dispose(); } });
+    scene.remove(root); root=null; dashMats=[]; anims=[];
+  }
+  function build(opt){
+    disposeRoot(); curOpt=opt;
+    root=new THREE.Group(); scene.add(root);
+    const cabs=[], pts=[]; let cabKey=null;
+    opt.parts.forEach(([k,q])=>{ for(let i=0;i<q;i++) (M[k].role==="cab"?cabs:pts).push({k}) });
+    if(cabs.length) cabKey=cabs[0].k;
+    if(opt.fam==="sgc"){ const idcs=pts.filter(p=>M[p.k].role==="point"), ds=pts.filter(p=>M[p.k].role==="disp"); pts.length=0; idcs.forEach((p,i)=>{pts.push(p); if(ds[i]){ds[i].feed=p; pts.push(ds[i])}}) }
+    else if(cabs.length){ pts.forEach((p,i)=>p.cab=i%cabs.length); pts.sort((a,b)=>a.cab-b.cab) }
+    const n=pts.length, rows=n>6?2:1, per=Math.ceil(n/rows), SP=5.6, BAY=2.8, L=per*SP;
+    const trench = rows===2 ? -.8 : -1.15;
+    const rowGroups=[];
+    for(let r=0;r<rows;r++){ const rg=new THREE.Group(); if(r===1){rg.rotation.y=Math.PI; rg.position.z=-1.6} root.add(rg); rowGroups.push(rg) }
+    let carI=0;
+    pts.forEach((p,i)=>{
+      const r=rows===2?(i<per?0:1):0, j=rows===2?(i<per?i:i-per):i, cnt=rows===2?(r===0?per:n-per):n;
+      const x=(j-(cnt-1)/2)*SP; const rg=rowGroups[r];
+      const u=MAKE[p.k](); u.position.set(x,0,0); rg.add(u);
+      box(rg,1.9,.14,1.25,X.pad,x,.07,0,false);
+      ((M[p.k].bays||2)===1?[0]:[-1,1]).forEach((s,bi)=>{
+        const bx=x+s*BAY/2;
+        const bay=new THREE.Mesh(new THREE.PlaneGeometry(BAY-.25,5.3),X.bay); bay.rotation.x=-Math.PI/2; bay.position.set(bx,.012,.8+2.65); bay.receiveShadow=true; rg.add(bay);
+        const ln=new THREE.Mesh(new THREE.PlaneGeometry(.09,5.5),X.line); ln.rotation.x=-Math.PI/2; ln.position.set(bx+(s||1)*BAY/2,.014,.8+2.75); rg.add(ln);
+        box(rg,1.2,.1,.18,X.yellow,bx,.05,1.35,false);
+      });
+      p.world=new THREE.Vector3(x,0,-.5); rg.updateMatrixWorld(true); p.world.applyMatrix4(rg.matrixWorld);
+      anims.push({o:u,t:"rise",d:.45+i*.06});
+    });
+    rowGroups.forEach((rg,r)=>{
+      const cnt=rows===2?(r===0?per:n-per):n, Lr=cnt*SP, x0=-Lr/2-.4, x1=Lr/2+.4, z0=-.2, z1=6.6, H=5.3;
+      const cg=new THREE.Group(); rg.add(cg);
+      const gl=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,.06,z1-z0),X.glass); gl.position.set(0,H,(z0+z1)/2); cg.add(gl);
+      box(cg,x1-x0,.32,.32,X.canopy,0,H,z1); box(cg,x1-x0,.32,.32,X.canopy,0,H,z0);
+      box(cg,.32,.32,z1-z0,X.canopy,x0,H,(z0+z1)/2); box(cg,.32,.32,z1-z0,X.canopy,x1,H,(z0+z1)/2);
+      box(cg,x1-x0,.06,.04,X.led,0,H-.12,z1+.17,false);
+      for(let k=0;k<=cnt;k++){ const x=-Lr/2+k*SP; if(k%2===0||k===cnt){ box(cg,.26,H,.26,X.canopy,Math.max(x0+.1,Math.min(x1-.1,x)),H/2,z0+.05) } if(k<cnt) box(cg,.24,.24,z1-z0,X.canopy,-Lr/2+(k+.5)*SP,H-.02,(z0+z1)/2,false) }
+      anims.push({o:cg,t:"drop",d:.25});
+    });
+    const minX=-L/2-1.4;
+    const cabX=k=>minX-2.2-k*2.1;
+    const trX=cabs.length? cabX(cabs.length-1)-3.4 : minX-3.2;
+    const yardZ = trench-.2;
+    const tr=mTR(); tr.position.set(trX,0,yardZ); root.add(tr); anims.push({o:tr,t:"rise",d:0});
+    const yardW=Math.abs(trX-minX)+3.4;
+    const yp=new THREE.Mesh(new THREE.PlaneGeometry(yardW,5.2),X.padL); yp.rotation.x=-Math.PI/2; yp.position.set((trX+minX)/2-.2,.006,yardZ); yp.receiveShadow=true; root.add(yp);
+    const fx0=trX-1.9,fx1=minX+.6,fz0=yardZ-2.4,fz1=yardZ+2.4;
+    const fm=new THREE.MeshStandardMaterial({color:0x8a9590,transparent:true,opacity:.18,side:THREE.DoubleSide,depthWrite:false});
+    [[fx0,fz0,fx1,fz0],[fx0,fz1,fx1,fz1],[fx0,fz0,fx0,fz1]].forEach(([a,b,c,d])=>{const L2=Math.hypot(c-a,d-b); const pl=new THREE.Mesh(new THREE.PlaneGeometry(L2,1.8),fm); pl.position.set((a+c)/2,.9,(b+d)/2); pl.rotation.y=-Math.atan2(d-b,c-a); root.add(pl); box(root,.06,1.9,.06,X.gray,a,.95,b,false); box(root,.06,1.9,.06,X.gray,c,.95,d,false)});
+    dashMats.push(fm); fm.userData.op=.18; fm.userData.static=true;
+    cabs.forEach((c,k)=>{const o=MAKE[c.k](); o.position.set(cabX(k),0,yardZ); o.rotation.y=Math.PI/2; root.add(o); anims.push({o,t:"rise",d:.18+k*.08})});
+    const add=(p,w,op)=>{root.add(ribbon(p,w,op))};
+    if(cabs.length){
+      cabs.forEach((c,k)=>add([[trX+1,yardZ],[cabX(k),yardZ]],.34,1));
+      pts.forEach(p=>{ const cx=cabX(p.cab), o2=(p.cab-(cabs.length-1)/2)*.22; add([[cx,yardZ],[cx+.9,trench+o2],[p.world.x,trench+o2],[p.world.x,p.world.z]],.16,.85) });
+    } else {
+      pts.forEach(p=>{ if(p.feed) return; add([[trX+1,yardZ],[trX+2.2,trench],[p.world.x,trench],[p.world.x,p.world.z]],.2,.9) });
+      pts.forEach(p=>{ if(p.feed) add([[p.feed.world.x,p.feed.world.z],[p.feed.world.x,trench+.25],[p.world.x,trench+.25],[p.world.x,p.world.z]],.16,.85) });
+    }
+    const x0=trX-2.5, x1=L/2+1.5, z0=rows===2?-8.5:-3.2, z1=7.2;
+    // asphalt lot under the whole site (reads as a diorama on any page background)
+    const lot=new THREE.Mesh(new THREE.BoxGeometry(x1-x0+3,.3,z1-z0+3),X.lot); lot.position.set((x0+x1)/2,-.155,(z0+z1)/2); lot.receiveShadow=true; root.add(lot);
+    const l1=label(`หม้อแปลง ${opt.tr} kVA`,"ขนาดที่แนะนำ","#3aa6ea"); l1.position.set(trX,3.6,yardZ); root.add(l1);
+    if(cabs.length){ const l2=label(`${M[cabKey].name} × ${cabs.length}`,`ตู้ไฟกลาง ${opt.st} kW`); l2.position.set((cabX(0)+cabX(cabs.length-1))/2,3.6,yardZ); root.add(l2) }
+    const l3=label(`${opt.st} kW · ${opt.o} หัว`,opt.cfg.length>28?ARCH[opt.arch]:opt.cfg); l3.position.set(0,7.3,rows===2?-.8:2.8); root.add(l3);
+    const cx=(x0+x1)/2, cz=(z0+z1)/2, span=Math.max(x1-x0,(z1-z0)*1.25);
+    t0=performance.now(); builtFor=opt.n; root.userData={cx,cz,span};
+    dirL.target.position.set(cx,0,cz); dirL.position.set(cx-22,38,cz+26);
+    const sc=dirL.shadow.camera, ext=span*.75+6; sc.left=-ext; sc.right=ext; sc.top=ext; sc.bottom=-ext; sc.near=1; sc.far=140; sc.updateProjectionMatrix();
+    frame();
+  }
+
+  function frame(){
+    if(!root) return; const {cx,cz,span}=root.userData; const a=cam.aspect||1.4;
+    const vf=cam.fov*Math.PI/180, hf=2*Math.atan(Math.tan(vf/2)*a);
+    let dist=(span/2)/Math.tan(hf/2)*.7; dist=Math.max(dist,(span*.32)/Math.tan(vf/2)); dist=Math.max(dist,14);
+    ctl.target.set(cx,.6,cz);
+    cam.position.set(cx+dist*.55,dist*.5,cz+dist*.78);
+    ctl.minDistance=8; ctl.maxDistance=dist*1.8; ctl.update();
+  }
+  function resize(){
+    if(!hostEl) return; const w=hostEl.clientWidth||600,h=hostEl.clientHeight||400;
+    R.setPixelRatio(Math.min(2,devicePixelRatio||1)); R.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); frame();
+  }
+  function mount(host,opt,interactive){
+    if(!host) return;
+    hostEl=host; heroMode=!interactive;
+    if(R.domElement.parentNode!==host) host.appendChild(R.domElement);
+    ctl.enabled=!!interactive; R.domElement.style.pointerEvents=interactive?"auto":"none"; R.domElement.style.touchAction=interactive?"none":"auto";
+    ctl.autoRotate=!reduce; ctl.autoRotateSpeed=interactive?.55:.4;
+    resize();
+    if(builtFor!==opt.n){ build(opt) } else { t0=performance.now()-3000; frame() }
+  }
+  function unmount(){ if(R.domElement.parentNode) R.domElement.parentNode.removeChild(R.domElement); hostEl=null }
+  addEventListener("resize",()=>resize());
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ if(curOpt){ const o=curOpt; builtFor=null; if(hostEl) build(o) } });
+  const ease=k=>1-Math.pow(1-Math.min(1,Math.max(0,k)),3);
+  function loop(now){
+    requestAnimationFrame(loop);
+    if(!hostEl||document.hidden||!hostEl.isConnected||hostEl.offsetParent===null) return;
+    const rc=hostEl.getBoundingClientRect(); if(rc.bottom<0||rc.top>innerHeight) return;
+    const t=(now-t0)/1000;
+    for(const a of anims){
+      const k=reduce?1:ease((t-a.d)/.8);
+      if(a.t==="rise") a.o.position.y=(1-k)*-3; else if(a.t==="drop") a.o.position.y=(1-k)*4; else if(a.t==="car") a.o.position.z=a.b+(1-k)*9;
+    }
+    dashTex.offset.x = reduce?0:-(now/1000)*.9;
+    const fk=reduce?1:ease((t-.9)/1);
+    dashMats.forEach(m=>m.opacity=m.userData.op*(m.userData.static?1:fk));
+    const pulse=1.6+Math.sin(now/420)*.8; ledMats.forEach(m=>m.emissiveIntensity=pulse);
+    ctl.update(); R.render(scene,cam);
+  }
+  requestAnimationFrame(loop);
+  return {ok:true,mount,unmount};
+})();
+
+
+/* ---------- views ---------- */
+const S={fam:"all",sc:{},reg:"all",mf:"all",sf:"all",q:"",sel:null};
+const img=f=>`img/${f}.webp`;
+const kwLabel=m=>m.kw?`<span class="num">${m.kw}</span><small>kW</small>`:`<span class="num">${m.kwTxt}</span><small>สูงสุด</small>`;
+const done=ST.filter(s=>s.s==="done");
+const STATS={st:done.length,ch:done.reduce((a,s)=>a+(s.m==="nova720"?6:s.q),0),pv:new Set(done.map(s=>s.prov)).size,kw:done.reduce((a,s)=>a+s.kw,0)};
+
+function modelCard(m){
+  const rc=refCount(m.k);
+  return `<a class="mcard" href="#m-${m.k}"><div class="pic"><span class="tag">${esc(m.tag)}</span>${rc?`<span class="refs">${rc} สถานีจริง</span>`:""}<img src="${img(m.img[0])}" alt="${esc(m.name)}" loading="lazy"></div>
+    <div class="bd"><div class="kw">${kwLabel(m)}</div><h3>${esc(m.name)}</h3><div class="sm mut">${esc(m.pitch)}</div></div></a>`;
+}
+function modelsSection(full){
+  const fams=[["all","ทั้งหมด"],["aio","All-in-One"],["cab","Power Cabinet"],["disp","Dispenser"]];
+  const list=MODELS.filter(m=>S.fam==="all"||m.fam===S.fam);
+  return `<section class="band" id="modelsSec"><div class="wrap">
+    <div class="sec-h"><div><h2>รุ่นเครื่อง StarCharge</h2><p class="mut">${MODELS.length} รุ่นจาก datasheet ล่าสุด แตะรุ่นเพื่อดูแบบสถานี 3D ขนาดหม้อแปลงที่แนะนำ และสถานีจริงของ EV Cafe</p></div></div>
+    <div class="fams" role="group" aria-label="ประเภทเครื่อง">${fams.map(([k,l])=>`<button class="chip" data-fam="${k}" aria-pressed="${S.fam===k}">${l}</button>`).join("")}</div>
+    <div class="grid">${list.map(modelCard).join("")}</div></div></section>`;
+}
+const SLIDES=[
+ {k:"aio",lab:"All-in-One",word:"ALL-IN-ONE",h:"ตู้เดียวจบ ติดตั้งไว<br>พร้อมชาร์จทุกจุดหมาย",kw:"30 – 320 kW",d:"โมดูลกำลังและหัวชาร์จอยู่ในตู้เดียว ตั้งแต่ Venus V3 ถึง Titan V4",chip:["8 รุ่น","Venus · Jupiter · Titan"],img:"hero-aio"},
+ {k:"cab",lab:"Split-Type",word:"SPLIT-TYPE",h:"แบ่งกำลังอัจฉริยะ<br>สำหรับสถานีขนาดใหญ่",kw:"480 – 720 kW · สูงสุด 18 หัว",d:"ตู้ไฟกลาง Nova / Nereus จ่ายกำลังให้ Dispenser อัตโนมัติตามรถที่เข้าชาร์จ",chip:["Power Pool","Nova · Nereus · Hydrus"],img:"hero-split"}
+];
+const HERO_MS=5000;
+function renderHome(){
+  return `<section class="hero" data-i="0" id="hero"><div class="stagecard">
+    <div class="trustchip glass">${'<span class="shine"><img src="img/trusted.webp" alt="Trusted by Entech Energy · Warranty & Service"></span>'}<div><b>Trusted by Entech Energy</b><small>Authorized StarCharge Partner · Warranty & Service</small></div></div>
+    <div class="slides">${SLIDES.map((s,i)=>`<div class="slide${i?"":" on"}" data-slide="${i}" ${i?'aria-hidden="true"':""}>
+      <div class="bigword" aria-hidden="true">${s.word}</div>
+      <div class="copy"><div class="eyebrow">StarCharge · EV Cafe</div>
+        <h1>${s.h}</h1>
+        <div class="kw">${s.kw}<small>${s.d}</small></div>
+        <div class="cta"><a class="btn solid" href="#models" data-fam-go="${s.k}">ดูรุ่น ${s.lab}</a><a class="btn line" href="#map">สถานีจริงทั่วไทย <span class="arr">→</span></a></div></div>
+      <div class="art"><img src="img/${s.img}.webp" alt="StarCharge ${s.lab} ทุกรุ่น"><span class="floor"></span><div class="kwchip glass"><i>⚡</i><div><b>${s.chip[0]}</b><small>${s.chip[1]}</small></div></div></div></div>`).join("")}</div>
+    <div class="hero-foot">
+      <div class="stats"><div><b>50<em>+</em></b><small>สถานีทั่วไทย</small></div><div><b>100<em>+</em></b><small>เครื่องที่ติดตั้ง</small></div><div><b>ทุกภาค</b><small>ครอบคลุมทั่วประเทศไทย</small></div></div>
+      <div class="sctl"><span class="slabel" id="slabel">01 / 02 · ALL-IN-ONE</span><div class="dots">${SLIDES.map((s,i)=>`<button data-dot="${i}" aria-label="${s.lab}" aria-current="${!i}"></button>`).join("")}</div><button class="nav" data-step="-1" aria-label="ก่อนหน้า">‹</button><button class="nav" data-step="1" aria-label="ถัดไป">›</button></div>
+    </div><div class="prog"><i id="prog" style="--dur:${HERO_MS}ms"></i></div></div></section>
+  <section class="trust"><div class="wrap"><span class="shine"><img src="img/trusted.webp" alt="Trusted by Entech Energy · Warranty & Service"></span>
+    <div><h3>Trusted by <span>Entech Energy</span></h3>
+      <div class="flow">ทุกสถานีที่ติดตั้งโดย EV Cafe ได้รับการรับประกันและบริการหลังการขายมาตรฐาน StarCharge จาก Entech Energy ตัวแทนจำหน่ายและศูนย์บริการในประเทศไทย</div>
+      <ul><li>Warranty & Service โดย Entech</li><li>อะไหล่และทีมช่างในประเทศ</li><li>บำรุงรักษาตามรอบ (PM)</li><li>ดูแลเคลมจุดเดียว</li></ul></div></div></section>
+  ${modelsSection()}
+  <section class="band" style="padding-top:0"><div class="wrap"><div class="sec-h"><div><h2>หน้างานจริงล่าสุด</h2><p class="mut">สถานีที่ EV Cafe ติดตั้ง StarCharge แล้ว</p></div><a class="btn k" href="#map">ดูทั้งหมดบนแผนที่</a></div>
+    <div class="slist">${ST.filter(s=>s.ph.length&&s.s==="done").slice(-6).reverse().map(stationCard).join("")}</div></div></section>`;
+}
+function stationCard(s){
+  const ph=s.ph[0];
+  return `<button class="scard" data-st="${s.n}"><div class="ph${ph?"":" empty"}" ${ph?`style="background-image:url('img/site/${ph}')"`:""}>${ph?"":"รอภาพหน้างาน"}<span class="st${s.s==="done"?"":" w"}">${s.s==="done"?"เปิดใช้งานแล้ว":"กำลังติดตั้ง"}</span></div>
+    <div class="bd"><h4>${esc(s.name)}</h4><div class="meta">${esc(s.dist?("อ."+s.dist+" · "):"")}จ.${esc(s.prov)}</div>
+    <div class="kv"><span>${esc(s.label)}</span>${s.kw?`<span class="num">${s.kw} kW</span>`:""}<span>${s.bays} ช่องจอด</span></div></div></button>`;
+}
+function renderModels(){return modelsSection(true)}
+
+function renderModel(k){
+  const m=MOD[k]; if(!m) return renderModels();
+  const scs=scenarios(m); const cur=scs.find(s=>s.id===S.sc[k])||scs.find(s=>refsFor(k,s.id).length)||scs[0]; S.sc[k]=cur.id;
+  const ks=m.fam==="aio"?[[`${m.kw} kW`,"กำลังต่อเครื่อง"],[`${m.guns} หัว`,"หัวชาร์จต่อเครื่อง"],[m.spec.find(r=>/ประสิทธิภาพ/.test(r[0]))[1].replace("สูงสุด ",""),"ประสิทธิภาพสูงสุด"]]
+    : m.fam==="cab"?[[`${m.kw} kW`,"กำลังรวมต่อตู้"],[`${m.cap} หัว`,"รองรับสูงสุดต่อตู้"],[m.spec[0][1].split("·")[1].trim(),"กระแสรวม"]]
+    : [[m.kwTxt,"กระแสสูงสุดต่อหัว"],["2 หัว","หัวชาร์จต่อตู้จ่าย"],[MOD[m.cab].name,"ตู้ไฟกลางที่ใช้คู่"]];
+  return `<section class="mhead"><div class="wrap"><div class="mword" aria-hidden="true">${esc(m.name.split(" ")[0].toUpperCase())}</div>
+    <div class="fade"><a class="back" href="#models">← รุ่นทั้งหมด</a><div class="sm" style="opacity:.9">${esc(m.tag)} · ${esc(m.code)}</div>
+      <h1>${esc(m.name)}</h1><p class="sub">${esc(m.pitch)}</p>
+      <div class="keyspec">${ks.map(([a,b])=>`<div><b>${esc(a)}</b><small>${esc(b)}</small></div>`).join("")}</div></div>
+    <div class="gal">${m.img.map(f=>`<img src="${img(f)}" alt="${esc(m.name)}">`).join("")}</div>
+  </div></section>
+  <section class="band"><div class="wrap">
+    <div class="sec-h"><div><h2>เลือกขนาดสถานี</h2><p class="mut">แตะจำนวนช่องจอดเพื่อดูแบบสถานี 3D กำลังรวม และขนาดหม้อแปลงที่แนะนำ · จุดสีส้ม = มีสถานีจริงของ EV Cafe</p></div></div>
+    <div class="scn">
+      <div class="panel"><div class="bays" role="group" aria-label="จำนวนช่องจอด">${scs.map(s=>`<button data-sc="${s.id}" aria-pressed="${s.id===cur.id}"><b>${s.bays} ช่อง${refsFor(k,s.id).length?'<span class="dot" title="มีสถานีจริง"></span>':""}</b><small>${esc(m.fam==="aio"?`${s.u} เครื่อง`:`${s.u} ตู้จ่าย`)}</small></button>`).join("")}</div>
+        <div class="gl" id="glHost"><span class="hint">ลากเพื่อหมุน · บีบเพื่อซูม</span>${G.ok?"":'<div class="nogl">อุปกรณ์นี้แสดงภาพ 3D ไม่ได้</div>'}</div></div>
+      <div class="panel calc" id="calc">${calcHTML(m,cur)}</div>
+    </div>
+    <div id="refsBox">${refsHTML(m,cur)}</div>
+    <h3 style="margin:34px 0 12px">สเปกเครื่อง ${esc(m.name)}</h3>
+    <div class="panel"><table class="spec"><tbody>${m.spec.map(([a,b])=>`<tr><th>${esc(a)}</th><td>${esc(b)}</td></tr>`).join("")}</tbody></table></div>
+    <p class="note">ที่มา: Thailand EVSE Datasheets 11/2026 (V1.21) · ภาพประกอบเท่านั้น</p>
+  </div></section>`;
+}
+function calcHTML(m,s){
+  const tr=trFor(s.st), per=Math.round(s.st/s.o);
+  const rows=m.fam==="aio"
+    ?[["รูปแบบ",s.cfg],["จำนวนหัวชาร์จ",`${s.o} หัว`],["ใช้หัวเดียวต่อเครื่อง",`สูงสุด ${m.kw} kW`],["ชาร์จพร้อมกันทุกหัว",`~${per} kW/หัว`]]
+    :[["รูปแบบ",s.cfg],["จำนวนหัวชาร์จ",`${s.o} หัว`],["กำลังเฉลี่ยเมื่อเต็มทุกหัว",`~${per} kW/หัว`],["แบ่งกำลัง","อัตโนมัติตามรถ (Power pool)"]];
+  return `<div class="sm mut">กำลังสถานีรวม</div><div class="big num">${fmt(s.st)}<small>kW · ${s.bays} ช่องจอด</small></div>
+   <ul class="rows">${rows.map(([a,b])=>`<li><span>${esc(a)}</span><b>${esc(b)}</b></li>`).join("")}</ul>
+   <div class="tr"><div class="k">${fmt(tr)} kVA</div><div><b style="font-weight:500">หม้อแปลงที่แนะนำ</b><p>คิดจากกำลังสถานี ${fmt(s.st)} kW ที่โหลดไม่เกิน ~80% ของหม้อแปลง</p></div></div>
+   <p class="note">ขนาดจริงขึ้นกับโหลดเดิมของหน้างานและการไฟฟ้าในพื้นที่ ทีม EV Cafe สำรวจหน้างานให้ก่อนเสนอราคา</p>
+   <a class="btn o" style="margin-top:12px;width:100%;justify-content:center" href="tel:0628695595">ปรึกษา EV Cafe 062-869-5595</a>`;
+}
+function refsHTML(m,s){
+  const exact=refsFor(m.k,s.id), all=refsFor(m.k);
+  const head=`<div class="refs-h"><h3>Site Ref · สถานี ${s.bays} ช่องจอด ที่ EV Cafe ติดตั้งแล้ว</h3><span class="sm mut">${all.length} สถานีที่ใช้ ${esc(m.k==="hydruspro"||m.k==="nova720v4"?"Nova V4 720 + Hydrus Pro":m.name)}</span></div>`;
+  if(exact.length) return head+`<div class="slist">${exact.map(stationCard).join("")}</div>`;
+  const other=all.slice(0,6);
+  return head+`<div class="empty-refs">ยังไม่มีสถานีรูปแบบ ${s.bays} ช่องจอดของรุ่นนี้ในรายการ${other.length?` · ดูสถานีอื่นที่ใช้รุ่นเดียวกันด้านล่าง`:" · ติดต่อ EV Cafe เพื่อดูหน้างานใกล้เคียง"}</div>${other.length?`<div class="slist" style="margin-top:12px">${other.map(stationCard).join("")}</div>`:""}`;
+}
+
+/* map */
+const COL={tv5120:"#0089d1",tv5180:"#2fae9a",tv5240:"#f26a1b",nova720:"#7a4cc2",tv5150:"#5aa9e6",hyp180:"#e0a100"};
+const VB={all:[0,0,MAP.vb[0],MAP.vb[1]]};
+function regionBox(r){const ps=ST.filter(s=>s.reg===r);const xs=ps.map(s=>s.x),ys=ps.map(s=>s.y);const p=700;let x0=Math.min(...xs)-p,x1=Math.max(...xs)+p,y0=Math.min(...ys)-p,y1=Math.max(...ys)+p;const w=Math.max(x1-x0,(y1-y0)*.75),h=Math.max(y1-y0,w*.9);const cx=(x0+x1)/2,cy=(y0+y1)/2;return [cx-w/2,cy-h/2,w,h]}
+function filteredST(){const q=S.q.trim();return ST.filter(s=>(S.reg==="all"||s.reg===S.reg)&&(S.mf==="all"||s.m===S.mf)&&(S.sf==="all"||s.s===S.sf)&&(!q||(s.name+s.prov+s.dist+s.place).includes(q)))}
+function renderMap(){
+  const ms=[...new Set(ST.map(s=>s.m))];
+  return `<section class="band"><div class="wrap">
+    <div class="sec-h"><div><h2>สถานี StarCharge ที่ติดตั้งโดย EV Cafe</h2><p class="mut">${ST.length} สถานีใน ${new Set(ST.map(s=>s.prov)).size} จังหวัด · แตะหมุดหรือรายชื่อเพื่อดูรูปหน้างาน โลเคชัน และแบบ 3D</p></div></div>
+    <div class="mapwrap">
+      <div class="mapbox"><div class="regions" role="group" aria-label="ภูมิภาค">${["all",...Object.keys(REG)].map(r=>`<button data-reg="${r}" aria-pressed="${S.reg===r}">${r==="all"?"ทั้งประเทศ":r}</button>`).join("")}</div>
+        <svg id="thmap" viewBox="${(S.reg==="all"?VB.all:regionBox(S.reg)).join(" ")}" role="img" aria-label="แผนที่ประเทศไทยพร้อมหมุดสถานี"><path class="prov" d="${MAP.prov}"/><path class="outl" d="${MAP.outline}"/><g id="pins"></g></svg>
+        <div class="legend">${ms.map(m=>`<span><i style="background:${COL[m]}"></i>${esc(m==="nova720"?"Nova 720 + Hydrus":(MOD[m]?MOD[m].name:EXTRA[m]))}</span>`).join("")}<span class="mut">ขอบเทา = กำลังติดตั้ง</span></div></div>
+      <div class="side">
+        <div class="filters"><input id="q" type="search" placeholder="ค้นหาชื่อสถานี / จังหวัด" value="${esc(S.q)}" aria-label="ค้นหา">
+          <div class="frow"><select id="mf" aria-label="รุ่นเครื่อง"><option value="all">ทุกรุ่น</option>${ms.map(m=>`<option value="${m}" ${S.mf===m?"selected":""}>${esc(m==="nova720"?"Nova 720 + Hydrus":(MOD[m]?MOD[m].name:EXTRA[m]))}</option>`).join("")}</select>
+          <select id="sf" aria-label="สถานะ"><option value="all">ทุกสถานะ</option><option value="done" ${S.sf==="done"?"selected":""}>เปิดใช้งานแล้ว</option><option value="wip" ${S.sf==="wip"?"selected":""}>กำลังติดตั้ง</option></select></div>
+          <div class="sm mut" id="cnt"></div></div>
+        <div class="slist2" id="slist"></div>
+      </div>
+    </div>
+    <p class="note">หมุดใช้พิกัดจากระบบติดตามเครื่อง (OAM) ของ Entech · สถานีที่ระบุว่า “พิกัดโดยประมาณ” ปักไว้ระดับอำเภอ/จังหวัด</p>
+  </div></section>`;
+}
+function drawPins(){
+  const list=filteredST(); const g=$("#pins"); if(!g) return;
+  const vb=$("#thmap").viewBox.baseVal; const k=vb.width/MAP.vb[0];
+  const sorted=list.slice().sort((a,b)=>a.y-b.y);
+  g.innerHTML=sorted.map(s=>{const r=(s.q>1||s.m==="nova720"?150:115)*Math.max(.45,k);return `<g class="pin${S.sel===s.n?" on":""}" data-st="${s.n}" tabindex="0" role="button" aria-label="${esc(s.name)}"><circle class="c" cx="${s.x}" cy="${s.y}" r="${r}" fill="${COL[s.m]}" style="stroke-width:${22*Math.max(.45,k)};${s.s==="wip"?"stroke:#9aa7b2;stroke-dasharray:40 26":""}"/>${s.q>1||s.m==="nova720"?`<text x="${s.x}" y="${s.y}" style="font-size:${120*Math.max(.45,k)}px">${s.m==="nova720"?6:s.q}</text>`:""}</g>`}).join("");
+  $("#cnt").textContent=`แสดง ${list.length} สถานี`;
+  const byP={}; list.forEach(s=>(byP[s.prov]=byP[s.prov]||[]).push(s));
+  $("#slist").innerHTML=Object.keys(byP).sort((a,b)=>a.localeCompare(b,"th")).map(p=>`<div class="sm mut" style="margin-top:6px">จ.${esc(p)} · ${byP[p].length}</div>`+byP[p].map(s=>`<button class="srow" data-st="${s.n}" aria-current="${S.sel===s.n}"><span class="t" style="${s.ph[0]?`background-image:url('img/site/${s.ph[0]}')`:""}"></span><span><b>${esc(s.name)}</b><small>${esc(s.label)}${s.s==="wip"?" · กำลังติดตั้ง":""}</small></span><span class="q">${s.kw?s.kw+" kW":""}</span></button>`).join("")).join("")||'<div class="empty-refs">ไม่พบสถานีที่ตรงกับตัวกรอง</div>';
+}
+
+/* station sheet */
+function openStation(n){
+  const s=ST.find(x=>x.n===+n); if(!s) return; S.sel=s.n;
+  const gm=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
+  const m=MOD[s.sc?s.sc.parts[0][0]:"tv5180"];
+  const photos=s.ph.length?`<div class="car" id="car">${s.ph.map((p,i)=>`<img src="img/site/${p}" alt="หน้างาน ${esc(s.name)} ภาพที่ ${i+1}">`).join("")}</div>${s.ph.length>1?`<div class="carnav"><button data-car="-1" aria-label="ภาพก่อนหน้า">‹</button><span>${s.ph.length} ภาพหน้างานจริง</span><button data-car="1" aria-label="ภาพถัดไป">›</button></div>`:""}`:`<div class="scard"><div class="ph empty" style="aspect-ratio:16/9">${s.s==="wip"?"อยู่ระหว่างติดตั้ง ยังไม่มีภาพหน้างาน":"รอภาพหน้างาน"}</div></div>`;
+  const modelLink=s.m==="nova720"?"nova720v4":(MOD[s.m]?s.m:null);
+  $("#sheet").innerHTML=`<div class="hd"><b>Site Ref · EV Cafe</b><button class="x" id="xs" aria-label="ปิด">×</button></div>${photos}
+   <div class="in"><span class="sm" style="color:${s.s==="done"?"var(--green)":"#c98700"}">● ${s.s==="done"?"เปิดใช้งานแล้ว":"กำลังติดตั้ง"}</span>
+    <h2>${esc(s.name)}</h2><div class="mut">${esc(s.place)}</div>
+    <ul class="rows"><li><span>ที่ตั้ง</span><b style="font-family:Prompt;font-weight:500">${esc(s.dist?("อ."+s.dist+" "):"")}จ.${esc(s.prov)}</b></li>
+     <li><span>เครื่อง</span><b>${esc(s.label)}</b></li>${s.kw?`<li><span>กำลังสถานี</span><b>${fmt(s.kw)} kW</b></li>`:""}<li><span>ช่องจอด</span><b>${s.bays} ช่อง</b></li>
+     ${s.kw?`<li><span>หม้อแปลงที่แนะนำ (ประมาณ)</span><b>${fmt(trFor(s.kw))} kVA</b></li>`:""}
+     <li><span>พิกัด</span><b>${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}${s.ex?"":" (โดยประมาณ)"}</b></li></ul>
+    <div class="cta" style="margin-top:14px"><a class="btn k" href="${gm}">เปิดใน Google Maps</a>${modelLink?`<a class="btn l" href="#m-${modelLink}">ดูรุ่น ${esc(MOD[modelLink].name)}</a>`:""}</div>
+    ${s.sc?`<div class="gl" id="glSheet"><span class="hint">แบบจำลองสถานี ${s.bays} ช่องจอด</span>${G.ok?"":'<div class="nogl">อุปกรณ์นี้แสดงภาพ 3D ไม่ได้</div>'}</div>`:""}
+   </div>`;
+  $("#sheet").classList.add("on"); $("#scrim").classList.add("on"); document.body.style.overflow="hidden";
+  $("#xs").focus();
+  if(s.sc&&G.ok) G.mount($("#glSheet"),optFor(s.sc),true);
+  if($("#pins")) drawPins();
+}
+function closeStation(){
+  if(!$("#sheet").classList.contains("on")) return;
+  $("#sheet").classList.remove("on"); $("#scrim").classList.remove("on"); document.body.style.overflow="";
+  G.unmount(); S.sel=null;
+  const v=route(); if(v.t==="m") mount3D(v.k); else if($("#pins")) drawPins();
+}
+function mount3D(k){const h=$("#glHost"); if(h&&G.ok){const s=scenarios(MOD[k]).find(x=>x.id===S.sc[k]); G.mount(h,optFor(s),true)}}
+
+/* router */
+function route(){const h=location.hash.slice(1)||"home"; if(h.startsWith("m-")) return {t:"m",k:h.slice(2)}; if(h.startsWith("st-")) return {t:"st",n:+h.slice(3)}; return {t:h}}
+function render(){
+  const v=route(); G.unmount(); heroI=0;
+  const view=$("#view");
+  if(v.t==="m") view.innerHTML=renderModel(v.k);
+  else if(v.t==="models") view.innerHTML=renderModels();
+  else if(v.t==="map"||v.t==="st") view.innerHTML=renderMap();
+  else view.innerHTML=renderHome();
+  const cur=v.t==="m"||v.t==="models"?"#models":v.t==="map"||v.t==="st"?"#map":v.t==="contact"?"#contact":"#home";
+  document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.getAttribute("href")===cur?"page":"false"));
+  if(v.t==="contact") $("#contactBand").scrollIntoView(); else window.scrollTo(0,0);
+  if(v.t==="m") mount3D(v.k);
+  if($("#hero")) heroAuto();
+  if(v.t==="map"||v.t==="st") drawPins();
+  if(v.t==="st") openStation(v.n);
+}
+addEventListener("hashchange",()=>{closeStationSilently();render()});
+function closeStationSilently(){ $("#sheet").classList.remove("on"); $("#scrim").classList.remove("on"); document.body.style.overflow=""; S.sel=null }
+
+document.addEventListener("click",e=>{
+  const t=e.target;
+  const f=t.closest("[data-fam]"); if(f){S.fam=f.dataset.fam; const sec=$("#modelsSec"); sec.outerHTML=modelsSection(); return}
+  const sc=t.closest("[data-sc]"); if(sc){const v=route(); const m=MOD[v.k]; S.sc[v.k]=sc.dataset.sc; const s=scenarios(m).find(x=>x.id===sc.dataset.sc);
+    document.querySelectorAll("[data-sc]").forEach(b=>b.setAttribute("aria-pressed",b===sc)); $("#calc").innerHTML=calcHTML(m,s); $("#refsBox").innerHTML=refsHTML(m,s); mount3D(v.k); return}
+  const st=t.closest("[data-st]"); if(st){openStation(st.dataset.st); return}
+  const rg=t.closest("[data-reg]"); if(rg){S.reg=rg.dataset.reg; document.querySelectorAll("[data-reg]").forEach(b=>b.setAttribute("aria-pressed",b===rg)); $("#thmap").setAttribute("viewBox",(S.reg==="all"?VB.all:regionBox(S.reg)).join(" ")); drawPins(); return}
+  const cv=t.closest("[data-car]"); if(cv){const c=$("#car"); c.scrollBy({left:c.clientWidth*+cv.dataset.car,behavior:"smooth"}); return}
+  if(t.id==="xs"||t.id==="scrim") closeStation();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeStation();
+  if((e.key==="Enter"||e.key===" ")&&e.target.closest&&e.target.closest(".pin")){e.preventDefault();openStation(e.target.closest(".pin").dataset.st)}
+  if($("#sheet").classList.contains("on")&&$("#car")&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){const c=$("#car");c.scrollBy({left:c.clientWidth*(e.key==="ArrowRight"?1:-1),behavior:"smooth"})}
+});
+document.addEventListener("input",e=>{ if(e.target.id==="q"){S.q=e.target.value; drawPins()} });
+document.addEventListener("change",e=>{ if(e.target.id==="mf"){S.mf=e.target.value; drawPins()} if(e.target.id==="sf"){S.sf=e.target.value; drawPins()} });
+let heroI=0,heroT=null;
+function setSlide(i){const h=$("#hero"); if(!h) return; heroI=(i+SLIDES.length)%SLIDES.length; h.dataset.i=heroI;
+  h.querySelectorAll(".slide").forEach((s,k)=>{s.classList.toggle("on",k===heroI); s.setAttribute("aria-hidden",k!==heroI)});
+  h.querySelectorAll("[data-dot]").forEach((d,k)=>d.setAttribute("aria-current",k===heroI));
+  $("#slabel").textContent=`0${heroI+1} / 0${SLIDES.length} · ${SLIDES[heroI].lab.toUpperCase()}`}
+function heroAuto(){clearInterval(heroT); const pg=$("#prog"); if(pg){pg.classList.remove("run"); void pg.offsetWidth; pg.classList.add("run")} heroT=setInterval(()=>{ if(!$("#hero")){clearInterval(heroT);return} if(!document.hidden) {setSlide(heroI+1); const g=$("#prog"); if(g){g.classList.remove("run"); void g.offsetWidth; g.classList.add("run")}} },HERO_MS)}
+document.addEventListener("click",e=>{const d=e.target.closest("[data-dot]"); if(d){setSlide(+d.dataset.dot);heroAuto()} const s=e.target.closest("[data-step]"); if(s){setSlide(heroI+ +s.dataset.step);heroAuto()} const f=e.target.closest("[data-fam-go]"); if(f) S.fam=f.dataset.famGo;},true);
+document.addEventListener("keydown",e=>{ if($("#hero")&&!$("#sheet").classList.contains("on")&&(e.key==="ArrowRight"||e.key==="ArrowLeft")&&!/INPUT|SELECT/.test(document.activeElement.tagName)){setSlide(heroI+(e.key==="ArrowRight"?1:-1));heroAuto()} });
+render();
+}
+</script>
+</body></html>
